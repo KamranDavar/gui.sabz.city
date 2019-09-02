@@ -1,0 +1,158 @@
+<!-- For license and copyright information please see LEGAL file in repository -->
+
+<header class="app-bar">
+    <span class="left">
+        <widget-hamburger-menu></widget-hamburger-menu>
+        <a href="/"><img alt="SabzCity logo" src="/images/app-icon-48x48.png" /></a>
+    </span>
+
+    <span class="center"></span>
+
+    <span class="right">
+        <widget-user-menu></widget-user-menu>
+        <widget-service-menu></widget-service-menu>
+    </span>
+</header>
+
+<main>
+    <div id="title">
+        <h1 class="typography--headline4">Change security option</h1>
+        <p class="typography--subtitle1">Lorem ipsum dolor sit</p>
+    </div>
+
+    <hr />
+
+    <section>
+        <h1 class="typography--headline5">Settings</h1>
+        <span class="typography--headline6">Lorem ipsum</span>
+
+        <div class="slot">
+            <m-expansion-panel action-button-name="save">
+                <span slot="title">Password</span>
+
+                <span slot="collapsed">Last changed: June 17, 2014</span>
+                <span slot="expanded">Change your password</span>
+
+                <div class="info" slot="info">
+                    <div class="second-row">
+                        <paper-input type="password" label="Your current password"></paper-input>
+                        <paper-input type="password" label="New password"></paper-input>
+                        <paper-input type="password" label="Confirm new password"></paper-input>
+                    </div>
+                </div>
+            </m-expansion-panel>
+
+            <m-expansion-panel action-button-name="save">
+                <span slot="title">2-Step Verification</span>
+
+                <span slot="collapsed">Off</span>
+                <span slot="expanded">Off</span>
+
+                <div class="info" slot="info">
+                    <div class="second-row">
+                        <paper-toggle-button></paper-toggle-button>
+                    </div>
+                </div>
+            </m-expansion-panel>
+
+            <m-expansion-panel>
+                <span slot="title">OTP-Additional</span>
+            </m-expansion-panel>
+
+            <m-expansion-panel action-button-name="save">
+                <span slot="title">Verificiation Status</span>
+                <svg slot="collapsed" style="width:24px;height:24px" viewBox="0 0 24 24">
+                    <path fill="#000000" fill-opacity="0.56"
+                        d="M10,17L6,13L7.41,11.59L10,14.17L16.59,7.58L18,9M12,1L3,5V11C3,16.55 6.84,21.74 12,23C17.16,21.74 21,16.55 21,11V5L12,1Z" />
+                </svg>
+            </m-expansion-panel>
+        </div>
+    </section>
+
+    <hr />
+
+    <section>
+        <h1 class="typography--headline5">Other Platform Connections</h1>
+        <span class="typography--headline6">Lorem ipsum</span>
+
+        <div class="slot">
+            <dom-repeat items="[[platforms]]" as="platform">
+                <template>
+                    <m-expansion-panel>
+                        <a-icon group="[[platform.group]]" name="[[platform.iconName]]"></a-icon>
+                        <span slot="title">[[platform.title]]</span>
+                    </m-expansion-panel>
+                </template>
+            </dom-repeat>
+        </div>
+    </section>
+
+    <hr />
+
+    <section>
+        <h1 class="typography--headline5">Device activity</h1>
+        <span class="typography--headline6">Lorem ipsum</span>
+
+        <div class="slot">
+            <dom-repeat items="[[devices]]" as="device">
+                <template>
+                    <m-expansion-panel class="remove-button" action-button-name="remove">
+                        <img slot="icon" src="[[device.icon]]">
+                        <span slot="title">[[device.title]]</span>
+                        <span slot="collapsed"><span class="black">[[device.last.location]]</span> -
+                            [[device.last.time]]</span>
+
+                        <div slot="info" class="info">
+                            <span>Browser:</span>
+                            <span>[[device.browser]]</span>
+
+                            <span>Last locations used:</span>
+                            <div class="latest-locations">
+                                <dom-repeat items="[[device.latestLocations]]" as="latest">
+                                    <template>
+                                        <div><span>[[latest.location]]</span> - [[latest.time]]</div>
+                                    </template>
+                                </dom-repeat>
+                            </div>
+                        </div>
+                    </m-expansion-panel>
+                </template>
+            </dom-repeat>
+        </div>
+    </section>
+
+    <hr />
+
+    <section>
+        <h1 class="typography--headline5">Connected apps</h1>
+        <span class="typography--headline6">Lorem ipsum</span>
+
+        <div class="slot">
+            <dom-repeat items="[[apps]]" as="app">
+                <template>
+                    <m-expansion-panel class="remove-button" action-button-name="remove">
+                        <img slot="icon" src="[[app.icon]]">
+                        <span slot="title">[[app.title]]</span>
+                        <span slot="collapsed">[[app.explain]]</span>
+
+                        <div slot="info" class="info">
+                            <span>Access given to:</span>
+                            <span>[[app.to]]</span>
+                            <span>Has access to:</span>
+                            <div>
+                                <div><span>[[app.accessTitle]]</span></div>
+                                <dom-repeat items="[[app.details]]" as="details">
+                                    <template>
+                                        <div class="access-items typography--caption">[[details]]</div>
+                                    </template>
+                                </dom-repeat>
+                            </div>
+                            <span>Access given on:</span>
+                            <span>[[app.on]]</span>
+                        </div>
+                    </m-expansion-panel>
+                </template>
+            </dom-repeat>
+        </div>
+    </section>
+</main>

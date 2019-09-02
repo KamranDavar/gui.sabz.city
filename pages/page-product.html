@@ -1,0 +1,120 @@
+<!-- For license and copyright information please see LEGAL file in repository -->
+
+<header class="app-bar">
+    <span class="left">
+        <widget-hamburger-menu></widget-hamburger-menu>
+        <a href="/"><img alt="SabzCity logo" src="/images/app-icon-48x48.png" /></a>
+    </span>
+
+    <span class="center">
+        <widget-product-search></widget-product-search>
+    </span>
+
+    <span class="right">
+        <widget-user-menu></widget-user-menu>
+        <widget-service-menu></widget-service-menu>
+    </span>
+</header>
+
+<main>
+    <section class="layout-grid">
+        <div class="span-1">
+            <a href='${"/compare-products?p=" + Application.Pages["product"].ProductDetail.ID}' title="Compare">
+                <i class="icons-font" hidden>compare_arrows</i>
+            </a>
+            <button class="icon" title="Show price chart" @click>
+                <i class="icons-font" hidden>show_chart</i>
+            </button>
+            <button role=switch class="icon" title="Like!" id="likeButton"
+                onclick='Application.Pages["product"].toggleLikeProduct()'>
+                <i class="icons-font" hidden>favorite_border</i>
+                <i class="icons-font" hidden>favorite</i>
+            </button>
+        </div>
+
+        <div class="span-4">
+            <img src='${Application.Pages["product"].ProductDetail.Pictures[0]}'
+                alt='${Application.Pages["product"].ProductDetail.Name}' title="Product picture" />
+        </div>
+
+        <div class="span-7">
+            <h1>${Application.Pages["product"].ProductDetail.Name}</h1>
+
+            <a href="">
+                <span title="Product brand"></span>
+            </a>
+
+            <div>
+                <a href=${"/store?tags=" + Application.Pages["product"].ProductDetail.Tags.join()} title="Product tags">
+                    ${Application.Pages["product"].ProductDetail.Tags.map(t => `
+                    <a href=${"/store?tags=" + t}><span title="Product tag">${t}</span></a>
+                    `)}
+                </a>
+
+                <span title="related tags to this tags or product"></span>
+            </div>
+
+            <a href="">
+                <span title="Seller organization name"></span>
+            </a>
+
+            <div>
+                <a href="#CustomerReviews">Quality stars + Number of reviews</a>
+            </div>
+
+            <div>
+                <span title="Discount percent">${Application.Pages["product"].ProductDetail.DiscountPercent}</span>
+                <del title="Real price">${Application.Pages["product"].ProductDetail.Price}</del>
+                <span title="Payable price">${Application.Pages["product"].ProductDetail.Price * (100 -
+                    Application.Pages["product"].ProductDetail.DiscountPercent) / 100}</span>
+                <span title="Currency">${Application.UserPreferences.ContentPreferences.Currency.symbol}</span>
+
+                <span title="Discount end time"></span>
+                <span title="Discount claimed bar"></span>
+                <span title="Discount claimed percent"></span>
+            </div>
+
+            <button id="addToCard" class="raised" onclick='Application.Pages["product"].addToCard()' aria-haspopup="true"
+                aria-controls="addToCardDialog">
+                <label>Add to card</label>
+                <i class="icons-font">add_shopping_cart</i>
+            </button>
+            <dialog id="addToCardDialog" class="span-4" ?open=${this.addToCardDialogOpen}>
+                <select id="warehouses">
+                    <option></option>
+                </select>
+                <label for="warehouses">Warehouses order by near to user</label>
+
+                <select id="number">
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                </select>
+                <label for="number">How many product add to card</label>
+            </dialog>
+        </div>
+    </section>
+
+    <section class="layout-grid">
+        <h2>Product description</h2>
+    </section>
+
+    <section class="layout-grid">
+        <h2>Product information</h2>
+    </section>
+
+    <section id="CustomerReviews" class="layout-grid">
+        <h2>Customer reviews</h2>
+
+        <div title="Customer images tag this product ID in pictures service"></div>
+    </section>
+
+    <section class="layout-grid">
+        <h2>Customer questions & answers</h2>
+    </section>
+
+    <section class="layout-grid" id="suggestedProducts">
+        <h2 class="span-12">Suggested products</h2>
+    </section>
+</main>

@@ -1,0 +1,64 @@
+<!-- For license and copyright information please see LEGAL file in repository -->
+
+<header class="app-bar">
+    <span class="left">
+        <widget-hamburger-menu></widget-hamburger-menu>
+        <a href="/"><img alt="SabzCity logo" src="/images/app-icon-48x48.png" /></a>
+    </span>
+
+    <span class="center"></span>
+
+    <span class="right">
+        <widget-user-menu></widget-user-menu>
+        <widget-service-menu></widget-service-menu>
+    </span>
+</header>
+
+<main class="layout-grid">
+    <section class="span-4">
+        Your repositories
+
+        <button>
+            <label>New</label>
+            <i class="icons-font">book</i>
+        </button>
+
+        <div>
+            <input type="text" id="findRepo" />
+            <label for="findRepo">Find a repository ... </label>
+        </div>
+
+        <p>
+            You don't have any repositories yet!
+        </p>
+    </section>
+
+    <section class="span-8">
+        <!-- Developer Timeline -->
+        <!-- Issue & repo card get by user interest or contribute or friends and followers -->
+
+        <!-- card base on e.g. user interest, search, ... -->
+        <section class="card">
+            <header>
+                <h2>Org name / Repo name</h2>
+                <h3>Repo description</h3>
+            </header>
+
+            <div>
+                <span>Repo activity rate</span>
+
+                <span>Repo tags</span>
+
+                <span>Repo most language used</span>
+                <span>Repo attention rate - it is auto rating mechanism instead of like or star</span>
+                <span>Repo licence</span>
+                <span>Last update time</span>
+            </div>
+
+            <footer>
+                <span>suggest due to ... </span>
+                <!-- attend by friends, user interest, ... -->
+            </footer>
+        </section>
+    </section>
+</main>

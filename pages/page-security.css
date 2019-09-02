@@ -1,0 +1,84 @@
+/* For license and copyright information please see LEGAL file in repository */
+
+#title {
+    text-align: center;
+}
+
+.typography--subtitle1 {
+    margin-bottom: 32px;
+}
+
+section {
+    display: grid;
+    grid-template-columns: 40% 60%;
+    grid-template-rows: 80px auto;
+    grid-template-areas: "title title" "text slot";
+    margin-bottom: 32px;
+}
+
+.typography--headline5 {
+    grid-area: title;
+    text-align: center;
+}
+
+.typography--headline6 {
+    grid-area: text;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 100px
+}
+
+section div.slot {
+    grid-area: slot;
+}
+
+@media screen and (max-width: 780px) {
+    section {
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr;
+        grid-template-areas: "title" "text" "slot";
+    }
+    .typography--headline6 {
+        margin: 0 0 16px 0;
+    }
+}
+
+m-expansion-panel .info {
+    display: grid;
+    grid-template-columns: 49% 49%;
+    grid-row-gap: 16px;
+    color: rgba(0, 0, 0, 0.54)
+}
+
+m-expansion-panel .info span {
+    color: rgba(0, 0, 0, 0.87);
+}
+
+m-expansion-panel .info>* {
+    margin: 8px 0;
+}
+
+m-expansion-panel .info .second-row {
+    grid-column: 2 / 3;
+}
+
+.black {
+    color: rgba(0, 0, 0, 0.87);
+}
+
+.latest-locations div {
+    margin: 8px 0;
+}
+
+.remove-button {
+    --action-button-color: var(--color--danger);
+}
+
+.access-items {
+    margin-top: 4px;
+}
+
+paper-input {
+    --paper-font-subhead_-_font-size: 14px
+}

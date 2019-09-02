@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 428.21 427.32">
+    <defs>
+        <style>.cls-1{fill:url(#radial-gradient);}.cls-2,.cls-3{fill:none;stroke:#fff;stroke-miterlimit:10;}.cls-2{stroke-width:35.07px;}.cls-3{stroke-width:42.86px;}.cls-4{fill:#fff;}</style>
+        <radialGradient id="radial-gradient" cx="124.45" cy="426.27" r="431.68" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stop-color="#ffd776"/>
+            <stop offset="0.25" stop-color="#f3a554"/>
+            <stop offset="0.38" stop-color="#f15c3c"/>
+            <stop offset="0.7" stop-color="#c32f87"/>
+            <stop offset="0.95" stop-color="#6765ae"/>
+            <stop offset="0.99" stop-color="#5c6cb3"/>
+        </radialGradient>
+    </defs>
+    <title>Instagram-logo-2016</title>
+    <path class="cls-1" d="M428.21,333.71c0,51.7-41.71,93.61-93.17,93.61H93.17C41.71,427.32,0,385.41,0,333.71V93.61C0,41.91,41.71,0,93.17,0H335c51.45,0,93.17,41.91,93.17,93.61v240.1Z"/>
+    <rect class="cls-2" x="70.35" y="66.05" width="287.51" height="296.12" rx="79.57" ry="79.57"/>
+    <path class="cls-3" d="M284.69,213.66c-0.85,39-31.6,70.59-70.59,70.59a70.59,70.59,0,0,1-70.59-70.59c0-39,31.62-71.72,70.59-70.59C261.57,144.46,285.54,174.82,284.69,213.66Z"/>
+    <circle class="cls-4" cx="301.05" cy="126.38" r="19.8"/>
+</svg>

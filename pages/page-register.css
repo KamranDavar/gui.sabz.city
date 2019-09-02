@@ -1,0 +1,36 @@
+/* For license and copyright information please see LEGAL file in repository */
+
+.card {
+    max-width: 600px;
+    margin: 16px auto;
+}
+
+.already-login a {
+    text-align: center;
+    padding: 32px;
+}
+
+.typography--headline5 {
+    text-align: center;
+    margin: 16px 0;
+}
+
+.typography--subtitle1 {
+    text-align: center;
+    margin: 8px 0;
+}
+
+div#input {
+    margin: 16px 8px;
+    padding: 32px;
+}
+
+.social-register img {
+    height: 28px;
+}
+
+.social-register div {
+    flex-direction: row;
+    text-align: center;
+    padding: 25px;
+}
