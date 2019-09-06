@@ -5,6 +5,11 @@ import '../widgets/widget-menu-service.js'
 import '../widgets/widget-menu-user.js'
 
 Application.Pages["error-403"] = {
+    ID: "error-403",
+    RecordID: "",
+    Condition: {},
+    State: "",
+    Robots: "none",
     Info: {
         "en": { Name: "Forbidden - 403", ShortName: "403", Tagline: "", Slogan: "", Description: "", Tags: [] },
         "fa": { Name: "ممنوع - 403", ShortName: "403", Tagline: "", Slogan: "", Description: "", Tags: [] }
@@ -26,4 +31,7 @@ Application.Pages["error-403"] = {
 
 Application.Pages["error-403"].ConnectedCallback = function () {
     window.document.body.innerHTML = eval('`' + Application.ActivePage.HTML + '`')
+}
+
+Application.Pages["error-403"].DisconnectedCallback = function () {
 }

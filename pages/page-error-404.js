@@ -5,6 +5,11 @@ import '../widgets/widget-menu-service.js'
 import '../widgets/widget-menu-user.js'
 
 Application.Pages["error-404"] = {
+    ID: "error-404",
+    RecordID: "",
+    Condition: {},
+    State: "",
+    Robots: "none",
     Info: {
         "en": { Name: "Page Not Found - 404", ShortName: "404", Tagline: "", Slogan: "", Description: "", Tags: [] },
         "fa": { Name: "صفحه مورد نظر یافت نشد - 404", ShortName: "404", Tagline: "", Slogan: "", Description: "", Tags: [] }
@@ -30,4 +35,7 @@ Application.Pages["error-404"] = {
 
 Application.Pages["error-404"].ConnectedCallback = function () {
     window.document.body.innerHTML = eval('`' + Application.ActivePage.HTML + '`')
+}
+
+Application.Pages["error-404"].DisconnectedCallback = function () {
 }

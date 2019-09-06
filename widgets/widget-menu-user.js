@@ -54,7 +54,7 @@ export class WidgetUserMenu extends LitElement {
     }
     render() {
         return html`
-            <a href=${this.userLoggedIn ? "/sessions" : "/login?redirect-url=" + window.location.href} title=${this.userLoggedIn ?
+            <a href=${this.userLoggedIn ? "/sessions" : Application.ActivePage.ID === "login" ? "/login": "/login?redirect-url=" + window.location.href} title=${this.userLoggedIn ?
                 Application.Widgets["user-menu"].LocaleText[1] : Application.Widgets["user-menu"].LocaleText[0]}>
                 <img alt=${Application.Widgets["user-menu"].LocaleText[2]} src=${this.userPicture} />
             </a>

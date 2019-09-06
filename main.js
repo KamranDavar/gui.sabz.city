@@ -18,7 +18,7 @@ import '/pages/page-register-org.js'
 
 import '/pages/page-finance.js'
 
-import '/pages/page-developers.js'
+import '/pages/page-dev.js'
 import '/pages/page-domains.js'
 import '/pages/page-repo.js'
 
@@ -67,7 +67,7 @@ function init() {
             },
             HomePage: "", // start with home page!
             MostUsedPages: [
-                "my", "orgs", "finance", "developers", "store",
+                "my", "orgs", "finance", "dev", "store",
             ],
         }
     )

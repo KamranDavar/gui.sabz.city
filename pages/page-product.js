@@ -3,9 +3,13 @@
 import '../widgets/widget-menu-hamburger.js'
 import '../widgets/widget-menu-service.js'
 import '../widgets/widget-menu-user.js'
-import { testData } from './page-store.js'
 
 Application.Pages["product"] = {
+    ID: "product",
+    RecordID: "",
+    Condition: {},
+    State: "",
+    Robots: "all",
     Info: {
         "en": { Name: "Product", ShortName: "Product", Tagline: "", Slogan: "", Description: "", Tags: [] },
         "fa": { Name: "محصول", ShortName: "محصول", Tagline: "", Slogan: "", Description: "", Tags: [] }
@@ -32,9 +36,8 @@ Application.Pages["product"].ProductDetail = {
 
 Application.Pages["product"].ConnectedCallback = function () {
     // Get product details
-    let pID = window.location.pathname.split('/')[2]
-    Application.Pages["product"].ProductDetail = testData[pID]
-    if (pID && Application.Pages["product"].ProductDetail) {
+    Application.Pages["product"].ProductDetail = Application.Pages["store"].TestData[Application.Pages["product"].RecordID]
+    if (Application.Pages["product"].RecordID && Application.Pages["product"].ProductDetail) {
         Application.Pages["product"].ProductDetail.suggested = ["5454", "5453",]
     } else {
         Application.Router("error-404", "")
@@ -46,7 +49,10 @@ Application.Pages["product"].ConnectedCallback = function () {
 
     window.document.body.innerHTML = eval('`' + Application.ActivePage.HTML + '`')
 
-    Application.Pages["product"].getSuggestedProducts(pID)
+    Application.Pages["product"].getSuggestedProducts(Application.Pages["product"].RecordID)
+}
+
+Application.Pages["product"].DisconnectedCallback = function () {
 }
 
 Application.Pages["product"].getSuggestedProducts = function (UUID) {

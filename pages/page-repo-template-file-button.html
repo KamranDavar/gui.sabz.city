@@ -1,0 +1,7 @@
+<!-- For license and copyright information please see LEGAL file in repository -->
+
+<button role="tab" id="${'file-' + object.UUID}" class="dense file" onclick='Application.Pages["repo"].openFile(this.id)'>
+    <i class="icons-font" title="File extension icon">format_align_left</i>
+    <label title="File name with extension">${object.Name}</label>
+    <span title="File status! N=New, M=Modified, D=Deleted">${object.State}</span>
+</button>

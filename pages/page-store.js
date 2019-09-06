@@ -6,6 +6,19 @@ import '../widgets/widget-menu-user.js'
 import '../widgets/widget-product-search.js'
 
 Application.Pages["store"] = {
+    ID: "store",
+    RecordID: "",
+    Condition: {
+        "q": "", // query
+        "tags": [],
+        "sort": "",
+        "orgID": "",
+        "wareHouseDistance": 0, // 0 means just near available product
+        "lat": 0.0, // latitude
+        "long": 0.0, // longitude
+        "ownOrder": false, // all products user buy before
+    },
+    State: "",
     Info: {
         "en": { Name: "Store", ShortName: "Store", Tagline: "", Slogan: "", Description: "", Tags: [] },
         "fa": { Name: "فروشگاه", ShortName: "فروشگاه", Tagline: "", Slogan: "", Description: "", Tags: [] }
@@ -18,35 +31,36 @@ Application.Pages["store"] = {
         "fa": [
             "",
         ],
+    },
+    HTML: "",
+    CSS: "",
+    Templates: {
+        "product": ""
     }
 }
 
-// query: String,
-// tags: Array,
-// sort: String,
-// orgID: String,
-// wareHouseDistance: Number, // 0 means just near available product
-// lat: Number, // latitude
-// long: Number, // longitude
-// ownOrder: Boolean, // all products user buy before
-
 Application.Pages["store"].ConnectedCallback = function () {
-    const url = new URL(window.location.href)
-    this.query = url.searchParams.get('q')
-    this.tags = url.searchParams.get('tags')//.split(",")
-    this.sort = url.searchParams.get('sort')
-    if (this.query || this.tags || this.sort) {
-        this.products = ["12345"]
-    } else {
-        this.products = ["12345", "5453", "5454", "8547", "8889"]
-    }
-    
-    window.document.body.innerHTML = eval('`' + Application.ActivePage.HTML + '`')
+    window.document.body.innerHTML = Application.ActivePage.HTML
 
-    this.products.map(id => {
-        window.document.getElementById("productsMain")
-            .insertAdjacentHTML('beforeend', Application.Pages["store"].getProduct(id))
-    })
+    if (Application.Pages["store"].Condition["q"] ||
+        Application.Pages["store"].Condition["tags"] ||
+        Application.Pages["store"].Condition["sort"]) {
+        let products = ["12345"]
+        products.map(id => {
+            window.document.getElementById("productsMain")
+                .insertAdjacentHTML('beforeend', Application.Pages["store"].getProduct(id))
+        })
+    } else {
+        // TODO : Persistence state in time line even if route occur!
+        let products = ["12345", "5453", "5454", "8547", "8889"]
+        products.map(id => {
+            window.document.getElementById("productsMain")
+                .insertAdjacentHTML('beforeend', Application.Pages["store"].getProduct(id))
+        })
+    }
+}
+
+Application.Pages["store"].DisconnectedCallback = function () {
 }
 
 /**
@@ -55,49 +69,11 @@ Application.Pages["store"].ConnectedCallback = function () {
  */
 Application.Pages["store"].getProduct = function (uuid) {
     // Get product details by given ID
-    let p = {
-        ID: "",
-        Name: "",
-        Pictures: [""],
-        Price: 0,
-        DiscountPercent: 0,
-    }
-    p = testData[uuid]
-    if (p) return `
-            <section class="card span-3" title="Product detail">
-                <a href=${"/product/" + p.ID}>
-                    <header>
-                        <img src=${p.Pictures[0]} alt=${p.Name} />
-                        <h2 class="typography--subtitle1">${p.Name}</h2>
-                    </header>
-                    <div>
-                        <span>Quality stars</span>
-                        <span>User give stars number</span>
-                    </div>
-                    <div>
-                        <span title="Discount percent">${p.DiscountPercent}</span>
-                        <del title="Real price">${p.Price}</del>
-                        <span title="Payable price">${p.Price * (100 - p.DiscountPercent) / 100}</span>
-                        <span title="Currency">${Application.UserPreferences.ContentPreferences.Currency.symbol}</span>
-
-                        <span title="Discount end time"></span>
-                        <span title="Discount claimed bar"></span>
-                        <span title="Discount claimed percent"></span>
-                    </div>
-                </a>
-                <footer>
-                    <input type="checkbox" role="checkbox" id="compare" />
-                    <label for="compare" hidden>Compare</label>
-            
-                    <button id="addToCard" class="raised" title="Add to card" @click=>
-                        <i class="icons-font">add_shopping_cart</i>
-                    </button>
-                </footer>
-            </section>
-        `
+    const p = Application.Pages["store"].TestData[uuid]
+    if (p) return eval('`' + Application.Pages["store"].Templates["product"] + '`')
 }
 
-export let testData = {
+Application.Pages["store"].TestData = {
     "12345": {
         ID: "12345",
         Name: "Where the Crawdads Sing",

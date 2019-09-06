@@ -59,14 +59,23 @@
             </a>
 
             <div>
-                <a href="#CustomerReviews">Quality stars + Number of reviews</a>
+                <a href="#CustomerReviews">
+                    <span title="Product quality stars">
+                        <i class="icons-font">star</i>
+                        <i class="icons-font">star</i>
+                        <i class="icons-font">star</i>
+                        <i class="icons-font">star_half</i>
+                        <i class="icons-font">star_border</i>
+                    </span>
+                    <span title="User give stars number">1589</span>
+                </a>
             </div>
 
             <div>
-                <span title="Discount percent">${Application.Pages["product"].ProductDetail.DiscountPercent}</span>
+                <span title="Discount percent">${Application.Pages["product"].ProductDetail.DiscountPercent}%</span>
                 <del title="Real price">${Application.Pages["product"].ProductDetail.Price}</del>
-                <span title="Payable price">${Application.Pages["product"].ProductDetail.Price * (100 -
-                    Application.Pages["product"].ProductDetail.DiscountPercent) / 100}</span>
+                <ins title="Payable price">${Application.Pages["product"].ProductDetail.Price * (100 -
+                    Application.Pages["product"].ProductDetail.DiscountPercent) / 100}</ins>
                 <span title="Currency">${Application.UserPreferences.ContentPreferences.Currency.symbol}</span>
 
                 <span title="Discount end time"></span>
@@ -74,8 +83,8 @@
                 <span title="Discount claimed percent"></span>
             </div>
 
-            <button id="addToCard" class="raised" onclick='Application.Pages["product"].addToCard()' aria-haspopup="true"
-                aria-controls="addToCardDialog">
+            <button id="addToCard" class="raised" onclick='Application.Pages["product"].addToCard()'
+                aria-haspopup="true" aria-controls="addToCardDialog">
                 <label>Add to card</label>
                 <i class="icons-font">add_shopping_cart</i>
             </button>

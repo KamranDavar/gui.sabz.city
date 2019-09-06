@@ -1,0 +1,27 @@
+<!-- For license and copyright information please see LEGAL file in repository -->
+
+<details id="${'dep-' + repoDep.RepositoryID}">
+    <summary>
+        <h3>${repoDep.Name}</h3>
+    </summary>
+    <div>
+        <button id="${'newVersionAvailable-' + repoDep.RepositoryID}" class="icon" hidden>
+            <i class="icons-font" title="New version of dependency is ready. Click to update">new_releases</i>
+        </button>
+        <button class="icon" onclick="Application.Pages['repo'].openRepoStages(${repoDep.RepositoryID})">
+            <i class="icons-font" title="See repo stages">restore</i>
+        </button>
+        <button class="icon" onclick="Application.Pages['repo'].openRepoComments(${repoDep.RepositoryID})">
+            <i class="icons-font" title="See repo comments">comment</i>
+        </button>
+        <button class="icon" onclick="Application.Pages['repo'].addNewFile(${repoDep.RepositoryID})">
+            <i class="icons-font" title="Add new file">insert_drive_file</i>
+        </button>
+        <button class="icon" onclick="Application.Pages['repo'].openRepoSettings(${repoDep.RepositoryID})">
+            <i class="icons-font" title="Repo settings">settings_applications</i>
+        </button>
+        <a href="${'/repo/' + repoDep.RepositoryID}" title="Open repository">
+            <i class="icons-font">open_in_new</i>
+        </a>
+    </div>
+</details>

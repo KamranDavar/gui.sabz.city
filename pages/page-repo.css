@@ -1,1 +1,33 @@
 /* For license and copyright information please see LEGAL file in repository */
+
+main {
+    padding: 4px;
+}
+
+Button.file {
+    display: inline-flex;
+    width: 100%;
+}
+
+summary {
+    background-color: var(--color--middleground);
+}
+
+summary h1 {
+    display: contents;
+    font-size: 1rem;
+}
+
+summary h2 {
+    display: contents;
+    font-size: 0.9rem;
+}
+
+summary h3 {
+    display: contents;
+    font-size: 0.8rem;
+}
+
+div > a {
+    display: contents;
+}

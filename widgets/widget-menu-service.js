@@ -68,14 +68,14 @@ export class WidgetServiceMenu extends LitElement {
     }
     render() {
         return html`
-            <button type="button" class="icon" @click=${this.invertDialogOpen} title=${Application.Widgets["service-menu"].LocaleText[2]} aria-haspopup="true" aria-controls="serviceMenu"
+            <button type="button" class="icon" @click=${this.toggleDialogOpen} title=${Application.Widgets["service-menu"].LocaleText[2]} aria-haspopup="true" aria-controls="serviceMenu"
                 .aria-expanded=${this.dialogOpen} accesskey="m">
                 <svg viewBox="0 0 24 24">
                     <path d="M6,8c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM12,20c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM6,20c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM6,14c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM12,14c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM16,6c0,1.1 0.9,2 2,2s2,-0.9 2,-2 -0.9,-2 -2,-2 -2,0.9 -2,2zM12,8c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM18,14c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM18,20c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2z"></path>
                 </svg>
             </button>
             
-            <div class="disabledBackground" @click=${this.invertDialogOpen} ?hidden=${!this.dialogOpen}></div>
+            <div class="disabledBackground" @click=${this.toggleDialogOpen} ?hidden=${!this.dialogOpen}></div>
             <dialog type=modal id="serviceMenu" ?open=${this.dialogOpen}>
                 <!-- more than 100 services and apps! find it easily by typing! -->
                 <div>
@@ -86,8 +86,8 @@ export class WidgetServiceMenu extends LitElement {
                 <nav title="SabzCity services">
                     <ul>
                         ${this.activeMostUsedPages.map(s => html`
-                        <li ?checked=${Application.ActivePage === Application.Pages[s]} draggable="true">
-                            <a @click=${this.invertDialogOpen} href=${"/" + s} title=${Application.Pages[s].LocaleInfo.Name}>
+                        <li ?checked=${Application.ActivePage.ID === s} draggable="true">
+                            <a @click=${this.toggleDialogOpen} href=${"/" + s} title=${Application.Pages[s].LocaleInfo.Name}>
                                 <i class="icons-font">${Application.Pages[s].Icon}</i>
                                 <span class="typography--body2">${Application.Pages[s].LocaleInfo.ShortName}</span>
                             </a>
@@ -99,11 +99,11 @@ export class WidgetServiceMenu extends LitElement {
                 <hr />
             
                 <!-- User can change services order and defaults -->
-                <a href="" @click=${this.invertDialogOpen}>${Application.Widgets["service-menu"].LocaleText[1]}</a>
+                <a href="" @click=${this.toggleDialogOpen}>${Application.Widgets["service-menu"].LocaleText[1]}</a>
             </dialog>
         `
     }
-    invertDialogOpen() {
+    toggleDialogOpen() {
         this.dialogOpen = !this.dialogOpen
         // Input must get focus on physical keyboard || not have small screen!
         if (this.dialogOpen && window.navigator.maxTouchPoints === 0) this.shadowRoot.getElementById("findInput").focus()

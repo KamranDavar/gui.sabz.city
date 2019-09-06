@@ -5,6 +5,11 @@ import '../widgets/widget-menu-service.js'
 import '../widgets/widget-menu-user.js'
 
 Application.Pages[""] = {
+    ID: "",
+    RecordID: "",
+    Condition: {},
+    State: "",
+    Robots: "all",
     Info: {
         "en": { Name: "SabzCity Home Page", ShortName: "Home", Tagline: "", Slogan: "Welcome to your city", Description: "", Tags: [] },
         "fa": { Name: "صفحه اصلی شهرسبز", ShortName: "خانه", Tagline: "", Slogan: "به شهر خودتان خوش آمدید", Description: "", Tags: [] }
@@ -84,4 +89,7 @@ Application.Pages[""] = {
 
 Application.Pages[""].ConnectedCallback = function () {
     window.document.body.innerHTML = eval('`' + Application.ActivePage.HTML + '`')
+}
+
+Application.Pages[""].DisconnectedCallback = function () {
 }

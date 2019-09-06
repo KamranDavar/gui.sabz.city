@@ -2,7 +2,6 @@
 
 import { Languages } from './languages.js'
 import { Regions } from './regions.js'
-import { html } from '../lit-html/lit-html.js';
 
 /**
  * Experimental "Application" objects use to expand default browser window object!
@@ -42,11 +41,20 @@ window.Application = {
     // Can load all pages element on start || load most used pages || lazy-load on user request! (better idea??)
     Pages: {
         "": {
+            ID: "repo", // same as pages key
+            RecordID: "", // As engine standard, second part of URL use as RecordID to display information
+            Condition: {}, // As engine standard, URL query use as page Condition to show information
+            State: "", // As standard, URL hash use as page State to show information from that state
+            Robots: "", // "all", "noindex", "nofollow", "none", "noarchive", "nosnippet", "notranslate", "noimageindex", "unavailable_after: [RFC-850 date/time]"
             Info: {
                 "": { Name: "", ShortName: "", Tagline: "", Slogan: "", Description: "", Tags: [] },
             },
             LocaleInfo: {}, // Add auto by Application.Localize() method
-            HTML: null, CSS: null, Icon: "", Related: ["", ""]
+            Text: {
+                "": ["", "", ""]
+            },
+            LocaleText: {},
+            HTML: null, CSS: null, Templates: {}, Icon: "", Related: ["", ""]
         },
     },
     Landings: {},
@@ -282,8 +290,19 @@ Application.Router = function (requestedPageName, resourceUUID) {
     // Find and show requested app if it loaded before!
     Application.ActivePage = Application.Pages[requestedPageName]
     if (Application.ActivePage) {
+        // Set RecordID & Condition & State for page usage
+        Application.ActivePage.RecordID = resourceUUID
+        Application.ActivePage.State = window.location.hash
+        const sp = new URLSearchParams(window.location.search)
+        for (let pc in Application.ActivePage.Condition) {
+            Application.ActivePage.Condition[pc] = sp.get(pc)
+        }
+
         // lazy load requestedPageName files if not loaded before. It will just use for development phase!
         if (!Application.ActivePage.HTML) {
+            for (let tem in Application.Pages[requestedPageName].Templates) {
+                fetch("/pages/page-" + requestedPageName + "-template-" + tem + ".html").then(res => res.text()).then(res => Application.Pages[requestedPageName].Templates[tem] = res)
+            }
             fetch("/pages/page-" + requestedPageName + ".html").then(res => res.text()).then(res => {
                 Application.Pages[requestedPageName].HTML = res
                 Application.Pages[requestedPageName].ConnectedCallback()
@@ -292,9 +311,8 @@ Application.Router = function (requestedPageName, resourceUUID) {
                 Application.Pages[requestedPageName].CSS = res
                 pageStylesElement.innerHTML = res
             })
-        }
-        // Add page HTML & CSS to DOM
-        else {
+        } else {
+            // Add page HTML & CSS to DOM
             pageStylesElement.innerHTML = Application.ActivePage.CSS
             Application.ActivePage.ConnectedCallback()
         }
@@ -302,6 +320,7 @@ Application.Router = function (requestedPageName, resourceUUID) {
         // Update page title with page full name and update some meta tags! 
         window.document.title = Application.ActivePage.LocaleInfo.Name
         window.document.description.content = Application.ActivePage.LocaleInfo.Description
+        window.document.robots.content = Application.ActivePage.Robots
         // Twitter card  https://developer.twitter.com/en/docs/tweets/optimize-with-cards/guides/getting-started.html
         // The Open Graph protocol https://www.ogp.me/
     }
@@ -330,6 +349,7 @@ Application.Router = function (requestedPageName, resourceUUID) {
         // Update page title with page full name and update some meta tags! 
         window.document.title = Application.ActivePage.LocaleInfo.Name
         window.document.description.content = Application.ActivePage.LocaleInfo.Description
+        window.document.robots.content = Application.ActivePage.Robots
     } else {
         console.log("Requested page not exist")
         Application.Router("error-404", "")
@@ -355,6 +375,14 @@ Application.Polyfill = function () {
     window.document.description = document.createElement('meta')
     window.document.description.name = "description"
     window.document.head.appendChild(window.document.description)
+
+    // Due to application is CSR (Client side rendering) we need to control robot to allow||disallow indexing
+    // - Prevent some pages to index
+    // - we can't change status code to 404
+    // https://developers.google.com/search/reference/robots_meta_tag
+    window.document.robots = document.createElement('meta')
+    window.document.robots.name = "robots"
+    window.document.head.appendChild(window.document.robots)
 
     // Register service-worker.js
     // service-worker will be removed as soon as we can find other solution to control app by main function!
@@ -447,21 +475,21 @@ Application.Polyfill.SupportedLanguagesAlternateLink = function () {
         defaultElement.hreflang = "x-default"
         window.document.head.appendChild(defaultElement)
 
-        Application.ContentPreferences.Languages.forEach(sl => {
+        for (let l of Application.ContentPreferences.Languages) {
             const element = window.document.createElement('link')
             element.rel = "alternate"
-            element.hreflang = sl
+            element.hreflang = l
             window.document.head.appendChild(element)
             supportedLanguagesHref.push(element)
-        })
+        }
 
         // Update href attributes on url changed
         window.addEventListener('urlChanged', () => {
             const url = new URL(window.location.href)
-            supportedLanguagesHref.forEach(slh => {
+            for (let slh of supportedLanguagesHref) {
                 url.searchParams.set('hl', slh.hreflang)
                 slh.href = url
-            })
+            }
 
             url.searchParams.delete('hl')
             defaultElement.href = url

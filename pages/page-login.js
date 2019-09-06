@@ -5,6 +5,13 @@ import '../widgets/widget-menu-service.js'
 import '../widgets/widget-menu-user.js'
 
 Application.Pages["login"] = {
+    ID: "login",
+    RecordID: "",
+    Condition: {
+        "redirect-url": "",
+    },
+    State: "",
+    Robots: "all",
     Info: {
         "en": { Name: "Login", ShortName: "Login", Tagline: "", Slogan: "", Description: "", Tags: [] },
         "fa": { Name: "ورود", ShortName: "ورود", Tagline: "", Slogan: "", Description: "", Tags: [] }
@@ -39,11 +46,17 @@ Application.Pages["login"] = {
             "موبایل، ایمیل یا نام کاربری",
             "ورود راحت با استفاده از دیگر پلتفرم ها",
         ],
-    }
+    },
+    HTML: "",
+    CSS: "",
+    Templates: {}
 }
 
 Application.Pages["login"].ConnectedCallback = function () {
     window.document.body.innerHTML = eval('`' + Application.ActivePage.HTML + '`')
+}
+
+Application.Pages["login"].DisconnectedCallback = function () {
 }
 
 // userID: String,
@@ -86,9 +99,8 @@ Application.Pages["login"].login = function () {
     Application.UserPreferences.UsersState.UsersID.push(Application.UserPreferences.UsersState.ActiveUserID)
 
     // send user to redirect-url if exist or my home page as default login page
-    let redirect = new URL(window.location.href).searchParams.get('redirect-url')
-    if (!redirect) redirect = "/my"
-    window.location.replace(redirect)
+    if (Application.Pages["login"].Condition["redirect-url"]) Application.Pages["login"].Condition["redirect-url"] = "/my"
+    window.location.replace(Application.Pages["login"].Condition["redirect-url"])
 }
 
 // Animation const helper

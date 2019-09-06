@@ -5,6 +5,13 @@ import '../widgets/widget-menu-service.js'
 import '../widgets/widget-menu-user.js'
 
 Application.Pages["register"] = {
+    ID: "register",
+    RecordID: "",
+    Condition: {
+        "redirect-url": "",
+    },
+    State: "",
+    Robots: "all",
     Info: {
         "en": { Name: "Register", ShortName: "Register", Tagline: "", Slogan: "", Description: "", Tags: [] },
         "fa": { Name: "ثبت نام", ShortName: "ثبت نام", Tagline: "", Slogan: "", Description: "", Tags: [] }
@@ -46,6 +53,9 @@ Application.Pages["register"].ConnectedCallback = function () {
     window.document.body.innerHTML = eval('`' + Application.ActivePage.HTML + '`')
 }
 
+Application.Pages["register"].DisconnectedCallback = function () {
+}
+
 let acceptedTerms = false
 
 Application.Pages["register"].toggleTermDialog = function () {
@@ -68,7 +78,6 @@ Application.Pages["register"].declineTerms = function () {
 
 Application.Pages["register"].register = function () {
     // send user to redirect-url if exist or my home page as default login page
-    let redirect = new URL(window.location.href).searchParams.get('redirect-url')
-    if (!redirect) redirect = "/my"
-    window.location.replace(redirect)
+    if (Application.Pages["register"].Condition["redirect-url"]) Application.Pages["register"].Condition["redirect-url"] = "/my"
+    window.location.replace(Application.Pages["register"].Condition["redirect-url"])
 }
