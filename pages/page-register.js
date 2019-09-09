@@ -6,10 +6,8 @@ import '../widgets/widget-menu-user.js'
 
 Application.Pages["register"] = {
     ID: "register",
-    RecordID: "",
-    Condition: {
-        "redirect-url": "",
-    },
+    RecordID: null,
+    Condition: {},
     State: "",
     Robots: "all",
     Info: {
@@ -77,7 +75,10 @@ Application.Pages["register"].declineTerms = function () {
 }
 
 Application.Pages["register"].register = function () {
-    // send user to redirect-url if exist or my home page as default login page
-    if (Application.Pages["register"].Condition["redirect-url"]) Application.Pages["register"].Condition["redirect-url"] = "/my"
-    window.location.replace(Application.Pages["register"].Condition["redirect-url"])
+    // send user to last page if exist or my home page as default login page
+    if (Application.PreviousPage && Application.PreviousPage.ActiveURI) {
+        window.location.replace(Application.PreviousPage.ActiveURI)
+    } else {
+        window.location.replace("/my")
+    }
 }

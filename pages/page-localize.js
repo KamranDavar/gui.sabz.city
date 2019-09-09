@@ -8,10 +8,8 @@ import '../widget-localize/widget-presentation-preferences.js'
 
 Application.Pages["localize"] = {
     ID: "localize",
-    RecordID: "",
-    Condition: {
-        "redirect-url": "",
-    },
+    RecordID: null,
+    Condition: {},
     State: "",
     Robots: "all",
     Info: {
@@ -42,12 +40,13 @@ Application.Pages["localize"].doLocalize = function () {
     // Save user choose in related SabzCity API
     // SetUserInfo(UserState.ID) = Application.UserPreferences.ContentPreferences.Language.iso639_1 + "-" + Application.UserPreferences.ContentPreferences.Region.iso3166_1_a2
 
-    if (Application.Pages["localize"].Condition["redirect-url"]) Application.Pages["localize"].Condition["redirect-url"] = window.location.href
-    const url = new URL(Application.Pages["localize"].Condition["redirect-url"])
-    url.searchParams.set('hl', Application.UserPreferences.ContentPreferences.Language.iso639_1 + "-" + Application.UserPreferences.ContentPreferences.Region.iso3166_1_a2)
-    window.location.replace(url)
+    if (Application.PreviousPage && Application.PreviousPage.ActiveURI) {
+        Application.PreviousPage.ActiveURI.searchParams.set('hl', Application.UserPreferences.ContentPreferences.Language.iso639_1 + "-" + Application.UserPreferences.ContentPreferences.Region.iso3166_1_a2)
+        window.location.replace(Application.PreviousPage.ActiveURI)
+    } else {
+        window.location.replace("/?hl=" + Application.UserPreferences.ContentPreferences.Language.iso639_1 + "-" + Application.UserPreferences.ContentPreferences.Region.iso3166_1_a2)
+    }
 
-    // !!?? Performance problem due we must change localize logic in every element from constructor to ...
+    // TODO!!?? Problem due lit-element constructor styles and can't update.
     // Router(url)
 }
-

@@ -23,3 +23,6 @@ Application.Pages["finance"] = {
 Application.Pages["finance"].ConnectedCallback = function () {
     window.document.body.innerHTML = eval('`' + Application.ActivePage.HTML + '`')
 }
+
+Application.Pages["finance"].DisconnectedCallback = function () {
+}

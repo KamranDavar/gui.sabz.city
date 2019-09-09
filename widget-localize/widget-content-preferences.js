@@ -6,6 +6,7 @@ import { Regions } from '../gui-engine-js/regions.js'
 import { Currencies } from '../gui-engine-js/currencies.js'
 
 Application.Widgets["content-preferences"] = {
+    ID: "content-preferences",
     Text: {
         "en": [
             "Content Preferences",
@@ -23,7 +24,7 @@ Application.Widgets["content-preferences"] = {
 }
 
 // https://tools.ietf.org/html/bcp47
-export class WidgetContentPreferences extends LitElement {
+Application.Widgets["content-preferences"].HTML = class extends LitElement {
     // static get properties() {
     //     return {}
     // }
@@ -34,7 +35,7 @@ export class WidgetContentPreferences extends LitElement {
         return css`
             @import '${unsafeCSS(Application.DesignLanguageStyles.href)}';
 
-            section {
+            article {
                 position: relative;
                 max-width: 600px;
                 text-align: center;
@@ -51,9 +52,9 @@ export class WidgetContentPreferences extends LitElement {
     }
     render() {
         return html`
-            <section class="card">
+            <article>
                 <header>
-                    <h3>${Application.Widgets["content-preferences"].LocaleText[0]}</h3>
+                    <h1>${Application.Widgets["content-preferences"].LocaleText[0]}</h1>
                 </header>
             
                 <div>
@@ -63,7 +64,7 @@ export class WidgetContentPreferences extends LitElement {
                         <label for="language">${Application.Widgets["content-preferences"].LocaleText[1]}</label>
                         <datalist id=languages>
                             ${Languages.map(l => {
-                            if (Application.ContentPreferences.Languages.includes(l.iso639_1)) return html`
+            if (Application.ContentPreferences.Languages.includes(l.iso639_1)) return html`
                             <option value=${l.nativeName}>${l.englishName}</option>
                             ` })}
                         </datalist>
@@ -91,7 +92,7 @@ export class WidgetContentPreferences extends LitElement {
                         </datalist>
                     </div>
                 </div>
-            </section>
+            </article>
         `
     }
     changeLanguage() {
@@ -130,4 +131,4 @@ export class WidgetContentPreferences extends LitElement {
     }
 }
 
-customElements.define('widget-content-preferences', WidgetContentPreferences)
+customElements.define('widget-content-preferences', Application.Widgets["content-preferences"].HTML)

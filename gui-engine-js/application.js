@@ -36,14 +36,17 @@ window.Application = {
     },
     HomePage: "", // Application start page from written list keys
     ActivePage: null,
+    PreviousPage: null,
     MostUsedPages: [""],
     // Pages store all services (pages) and in locales names. keys is use for page name in URL too.
     // Can load all pages element on start || load most used pages || lazy-load on user request! (better idea??)
     Pages: {
         "": {
             ID: "repo", // same as pages key
+            ActiveURI: "",
+            PreviousURI: "",
             RecordID: "", // As engine standard, second part of URL use as RecordID to display information
-            Condition: {}, // As engine standard, URL query use as page Condition to show information
+            Condition: {}, // As engine standard, URL parameters use as page Condition to show information
             State: "", // As standard, URL hash use as page State to show information from that state
             Robots: "", // "all", "noindex", "nofollow", "none", "noarchive", "nosnippet", "notranslate", "noimageindex", "unavailable_after: [RFC-850 date/time]"
             Info: {
@@ -112,6 +115,7 @@ window.Application = {
     DesignLanguageStyles: "", // Link element, Add auto by Application.LoadDesignLanguageStyles() method
     PrimaryFont: null, // FontFace(), Add auto by Application.LoadFontFamilies() method
     SecondaryFont: null, // FontFace(), Add auto by Application.LoadFontFamilies() method
+    Polyfill: {}
 }
 
 /**
@@ -224,9 +228,8 @@ Application.Initialize = function (app) {
 
     Application.Localize()
 
-    Application.Polyfill()
-    Application.Polyfill.SetLangAndDir()
-    Application.Polyfill.SupportedLanguagesAlternateLink()
+    Application.Polyfill.PWA()
+    Application.Polyfill.Meta()
 }
 
 /**
@@ -276,26 +279,64 @@ Application.Localize = function () {
         let widget = Application.Widgets[key]
         widget.LocaleText = widget.Text[Application.UserPreferences.ContentPreferences.Language.iso639_1]
     }
+
+    Application.Polyfill.SetLangAndDir()
+    Application.Polyfill.SupportedLanguagesAlternateLink()
 }
 
 /** 
- * Router will lazy loading and also add related page element to body!
+ * Router will route to requestedPageName and optional uri! and also add related page element to body!
  * @param {string} requestedPageName
- * @param {string} resourceUUID
+ * @param {string} uri
  */
-Application.Router = function (requestedPageName, resourceUUID) {
+Application.Router = function (requestedPageName, uri) {
     // Tell others about new routing to do whatever they must do on url change!
     window.dispatchEvent(new Event('urlChanged'))
+
+    const URI = new URL(uri || window.location.href)
+    if (!requestedPageName || requestedPageName === "") requestedPageName = URI.pathname.split("/")[1]
+    const recordID = URI.pathname.split("/")[2]
+
+    // Warn active page about routing occur and do what it want to do!
+    if (Application.ActivePage) Application.ActivePage.DisconnectedCallback()
+
+    // Save previous page for any usage!
+    Application.PreviousPage = Application.ActivePage
 
     // Find and show requested app if it loaded before!
     Application.ActivePage = Application.Pages[requestedPageName]
     if (Application.ActivePage) {
-        // Set RecordID & Condition & State for page usage
-        Application.ActivePage.RecordID = resourceUUID
-        Application.ActivePage.State = window.location.hash
-        const sp = new URLSearchParams(window.location.search)
-        for (let pc in Application.ActivePage.Condition) {
-            Application.ActivePage.Condition[pc] = sp.get(pc)
+        Application.ActivePage.PreviousURI = Application.ActivePage.ActiveURI
+        Application.ActivePage.ActiveURI = URI
+
+        // Set page RecordID! and check requested page support get RecordID!
+        if ((Application.ActivePage.RecordID === undefined || Application.ActivePage.RecordID === null) &&
+            (recordID !== undefined)) {
+            Application.Router("error-404", "")
+            return
+        } else {
+            Application.ActivePage.RecordID = recordID
+        }
+
+        // Set page state same as hash in URLs!
+        Application.ActivePage.State = URI.hash
+
+        // Set page condition same as parameters in URLs! and check requested condition support by page!
+        for (let sp of URI.searchParams.keys()) {
+            // some application internal params
+            if (sp === "hl" || sp === "utm_source" || sp === "utm_medium" || sp === "utm") continue
+
+            if (Application.ActivePage.Condition[sp] === undefined) {
+                if (Application.ActivePage.ID !== "error-404") {
+                    Application.Router("error-404", "")
+                    return
+                }
+                break
+            } else if (Array.isArray(Application.ActivePage.Condition[sp])) {
+                Application.ActivePage.Condition[sp] = URI.searchParams.getAll(sp)
+            } else {
+                Application.ActivePage.Condition[sp] = URI.searchParams.get(sp)
+            }
         }
 
         // lazy load requestedPageName files if not loaded before. It will just use for development phase!
@@ -325,18 +366,18 @@ Application.Router = function (requestedPageName, resourceUUID) {
         // The Open Graph protocol https://www.ogp.me/
     }
     // Load landing by name or ID
-    else if (requestedPageName = "landings" && resourceUUID) {
-        Application.ActivePage = Application.Landings[resourceUUID]
+    else if (requestedPageName = "landings" && recordID) {
+        Application.ActivePage = Application.Landings[recordID]
         if (!Application.ActivePage) {
-            import("/landings/landing-" + resourceUUID + ".js")
+            import("/landings/landing-" + recordID + ".js")
                 .then(() => {
-                    Application.ActivePage = Application.Landings[resourceUUID]
-                    Application.Landings[resourceUUID].LocaleText = Application.Landings[resourceUUID].Text[Application.UserPreferences.ContentPreferences.Language.iso639_1]
-                    fetch("/landings/landing-" + resourceUUID + ".html").then(res => res.text()).then(res => {
+                    Application.ActivePage = Application.Landings[recordID]
+                    Application.Landings[recordID].LocaleText = Application.Landings[recordID].Text[Application.UserPreferences.ContentPreferences.Language.iso639_1]
+                    fetch("/landings/landing-" + recordID + ".html").then(res => res.text()).then(res => {
                         Application.ActivePage.HTML = eval('`' + res + '`')
                         window.document.body.innerHTML = Application.ActivePage.HTML
                     })
-                    fetch("/landings/landing-" + resourceUUID + ".css").then(res => res.text()).then(res => {
+                    fetch("/landings/landing-" + recordID + ".css").then(res => res.text()).then(res => {
                         Application.ActivePage.CSS = res
                         pageStylesElement.innerHTML = res
                     })
@@ -351,7 +392,7 @@ Application.Router = function (requestedPageName, resourceUUID) {
         window.document.description.content = Application.ActivePage.LocaleInfo.Description
         window.document.robots.content = Application.ActivePage.Robots
     } else {
-        console.log("Requested page not exist")
+        // Requested page not exist
         Application.Router("error-404", "")
         return
     }
@@ -369,21 +410,7 @@ Application.Save = function () {
  * Add some meta and link tag to header if user not install web app yet for not supported Application!!
  * This method can use just if you call Application.Localize() due we need some locale data!
  */
-Application.Polyfill = function () {
-    // If description meta tag is important why it doesn't have document object like title!!?
-    // We add it here to update it content later dynamically on every page.
-    window.document.description = document.createElement('meta')
-    window.document.description.name = "description"
-    window.document.head.appendChild(window.document.description)
-
-    // Due to application is CSR (Client side rendering) we need to control robot to allow||disallow indexing
-    // - Prevent some pages to index
-    // - we can't change status code to 404
-    // https://developers.google.com/search/reference/robots_meta_tag
-    window.document.robots = document.createElement('meta')
-    window.document.robots.name = "robots"
-    window.document.head.appendChild(window.document.robots)
-
+Application.Polyfill.PWA = function () {
     // Register service-worker.js
     // service-worker will be removed as soon as we can find other solution to control app by main function!
     if ('serviceWorker' in window.navigator) window.navigator.serviceWorker.register('/widget-localize/sw.js', { scope: "/" })
@@ -454,6 +481,22 @@ Application.Polyfill = function () {
     }
 }
 
+Application.Polyfill.Meta = function () {
+    // If description meta tag is important why it doesn't have document object like title!!?
+    // We add it here to update it content later dynamically on every page.
+    window.document.description = document.createElement('meta')
+    window.document.description.name = "description"
+    window.document.head.appendChild(window.document.description)
+
+    // Due to application is CSR (Client side rendering) we need to control robot to allow||disallow indexing
+    // - Prevent some pages to index
+    // - we can't change status code to 404
+    // https://developers.google.com/search/reference/robots_meta_tag
+    window.document.robots = document.createElement('meta')
+    window.document.robots.name = "robots"
+    window.document.head.appendChild(window.document.robots)
+}
+
 /**
  * Set language and region from Application.UserPreferences to html tag of DOM!
  * Call it each time language or region changed
@@ -484,21 +527,23 @@ Application.Polyfill.SupportedLanguagesAlternateLink = function () {
         }
 
         // Update href attributes on url changed
-        window.addEventListener('urlChanged', () => {
-            const url = new URL(window.location.href)
-            for (let slh of supportedLanguagesHref) {
-                url.searchParams.set('hl', slh.hreflang)
-                slh.href = url
-            }
-
-            url.searchParams.delete('hl')
-            defaultElement.href = url
-        }, false)
+        window.addEventListener('urlChanged', hrefAlternateListener, false)
     }
 }
 
+function hrefAlternateListener(event) {
+    const url = new URL(window.location.href)
+    for (let slh of supportedLanguagesHref) {
+        url.searchParams.set('hl', slh.hreflang)
+        slh.href = url
+    }
+
+    url.searchParams.delete('hl')
+    defaultElement.href = url
+}
+
 Application.Polyfill.SuggestLanguage = function () {
-    // Check if language be in URL (hl query)
+    // Check if language be in URL (hl parameter)
     let hl = new URL(window.location.href).searchParams.get('hl')
     if (hl && Application.ContentPreferences.Languages.includes(hl.split("-")[0])) {
         hl = hl.split("-")
@@ -552,7 +597,7 @@ function clickListener(event) {
         window.history.state, anchor.getAttribute('title'), anchor.href)
 
     // Do routing instead of reload page!
-    Application.Router(goUrl.pathname.split('/')[1], goUrl.pathname.split('/')[2])
+    Application.Router("", goUrl.href)
 }
 window.addEventListener('click', clickListener, false)
 
@@ -561,7 +606,7 @@ function stateChangeListener(event) {
     event.preventDefault()
 
     // Do routing instead of reload page!
-    Application.Router(window.location.pathname.split('/')[1], window.location.pathname.split('/')[2])
+    Application.Router("", window.location.href)
 }
 window.addEventListener('popstate', stateChangeListener, false)
 window.addEventListener('pushState', stateChangeListener, false)

@@ -68,7 +68,7 @@ main {
 
 .avatar-info {
     width: 100%;
-    background-color: var(--color--background);
+    background-color: var(--color--surface);
     display: inline-flex;
     align-items: center;
     flex-direction: row;
@@ -93,7 +93,7 @@ main {
 
 .avatar-info .info .nickname {
     font-size: 0.875em;
-    color: var(--color--background--secondary-on);
+    color: var(--color--surface--secondary-on);
 }
 
 .avatar-info>*>i {
@@ -161,7 +161,7 @@ main {
     position: absolute;
     text-transform: capitalize;
     box-shadow: var(--shadow--box--elevation-3dp);
-    background-color: var(--color--background);
+    background-color: var(--color--surface);
 }
 
 .public-status .dialog-content .status-title {

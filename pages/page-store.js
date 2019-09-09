@@ -7,7 +7,7 @@ import '../widgets/widget-product-search.js'
 
 Application.Pages["store"] = {
     ID: "store",
-    RecordID: "",
+    RecordID: null,
     Condition: {
         "q": "", // query
         "tags": [],
@@ -42,9 +42,9 @@ Application.Pages["store"] = {
 Application.Pages["store"].ConnectedCallback = function () {
     window.document.body.innerHTML = Application.ActivePage.HTML
 
-    if (Application.Pages["store"].Condition["q"] ||
-        Application.Pages["store"].Condition["tags"] ||
-        Application.Pages["store"].Condition["sort"]) {
+    if (Application.Pages["store"].Condition["q"] !== "" ||
+        Application.Pages["store"].Condition["tags"].length !== 0 ||
+        Application.Pages["store"].Condition["sort"] !== "") {
         let products = ["12345"]
         products.map(id => {
             window.document.getElementById("productsMain")
@@ -61,6 +61,10 @@ Application.Pages["store"].ConnectedCallback = function () {
 }
 
 Application.Pages["store"].DisconnectedCallback = function () {
+    // reset last page state and conditions
+    Application.Pages["store"].Condition["q"] = ""
+    Application.Pages["store"].Condition["tags"] = []
+    Application.Pages["store"].Condition["sort"] = ""
 }
 
 /**

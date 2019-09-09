@@ -14,10 +14,10 @@
  */
 
 html {
-    background-color: var(--color--background);
+    background-color: rgb(245, 245, 245);
     font-family: var(--typography--primary-font-family);
-    font-size: var(--typography--base-font-size);
-    color: var(--color--background--primary-on);
+    font-size: 16px;
+    color: var(--color--surface--primary-on);
     text-rendering: optimizeLegibility;
     -moz-osx-font-smoothing: grayscale;
     -webkit-font-smoothing: antialiased;
@@ -42,7 +42,7 @@ body {
  * Page header
  *
  *
- * https://material.io/design/components/app-bars-top.html
+ * https://material.io/components/app-bars-top/
  * https://material.io/develop/web/components/top-app-bar/
  */
 
@@ -59,8 +59,8 @@ body>header {
     left: 0;
     width: 100%;
     height: 64px;
-    background-color: var(--color--background);
-    color: var(--color--background--primary-on);
+    background-color: var(--color--surface);
+    color: var(--color--surface--primary-on);
     box-shadow: var(--shadow--box--elevation-2dp);
 }
 
@@ -298,6 +298,186 @@ body>header.dense.prominent.fixed+main {
 /**
  *
  *
+ * Article
+ *
+ *
+ */
+
+/**
+ * Card
+ *
+ * https://material.io/components/cards/
+ * https://material.io/develop/web/components/cards/
+ */
+
+article {
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    background-color: var(--color--surface);
+    box-shadow: var(--shadow--box--elevation-0dp);
+    border-style: solid;
+    border-radius: 4px;
+    border-width: 1px;
+    border-color: var(--color--border--hr);
+}
+
+article:hover {
+    box-shadow: var(--shadow--box--elevation-8dp);
+}
+
+article[hidden] {
+    display: none !important;
+}
+
+article img {
+    width: auto;
+}
+
+article header>h1 {
+    font-size: 1rem;
+    line-height: 1rem;
+    font-weight: 400;
+    letter-spacing: 0.009375em;
+    text-decoration: inherit;
+    text-transform: inherit;
+}
+
+article>div {
+    position: relative;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    position: relative;
+    outline: none;
+    color: inherit;
+    text-decoration: none;
+    overflow: hidden;
+}
+
+article>div:first-child {
+    border-top-left-radius: inherit;
+    border-top-right-radius: inherit;
+}
+
+article>div:last-child {
+    border-bottom-left-radius: inherit;
+    border-bottom-right-radius: inherit;
+}
+
+article>div.square {
+    margin-top: 100%;
+}
+
+article>div.ar-16-9 {
+    margin-top: 56.25%;
+}
+
+article div>img {}
+
+/* Ripple effect */
+
+article>div.ripple:hover {
+    background-color: var(--color--surface--hover);
+}
+
+article>div.ripple:focus, article>div.ripple:focus-within {
+    background-color: var(--color--surface--focus);
+}
+
+article>div.ripple:active {
+    background-color: var(--color--surface--active);
+    /* animation: mdc-ripple-fg-radius-in 225ms forwards, mdc-ripple-fg-opacity-in 75ms forwards; */
+}
+
+article>footer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    box-sizing: border-box;
+    min-height: 52px;
+    padding: 8px;
+}
+
+article>footer.full-bleed {
+    justify-content: space-between;
+    width: 100%;
+    height: auto;
+    max-height: none;
+    margin: 0;
+    padding-right: 16px;
+    padding-left: 16px;
+    text-align: left;
+}
+
+[dir=rtl] article>footer.full-bleed, article>footer.full-bleed[dir=rtl] {
+    text-align: right;
+}
+
+article>footer>.left, article>footer>.right {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+article>footer>.right {
+    flex-grow: 1;
+    justify-content: flex-end;
+}
+
+article>footer>.left+.right {
+    margin-left: 16px;
+    margin-right: 0;
+}
+
+[dir=rtl] article>footer>.left+.right, article>footer>.left+.right[dir=rtl] {
+    margin-left: 0;
+    margin-right: 16px;
+}
+
+article>footer button {
+    margin-left: 0;
+    margin-right: 8px;
+    padding: 0 8px;
+}
+
+[dir=rtl] article>footer button, article>footer button[dir=rtl] {
+    margin-left: 8px;
+    margin-right: 0;
+}
+
+article>footer button:last-child {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+[dir=rtl] article>footer button:last-child, article>footer button:last-child[dir=rtl] {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+article>footer button.icon {
+    margin: -6px 0;
+    padding: 12px;
+}
+
+/**
+ * Elevated Card
+ */
+
+article.elevated {
+    box-shadow: var(--shadow--box--elevation-2dp);
+    border-width: 0px;
+    border-style: solid;
+    border-color: unset;
+}
+
+/**
+ *
+ *
  * Image
  *
  *
@@ -320,7 +500,7 @@ img.alt-caption::after {
     background-position: center;
     background-size: cover;
     border-radius: 0;
-    color: var(--color--background--primary-on);
+    color: var(--color--surface--primary-on);
     align-items: center;
     justify-content: space-between;
     box-sizing: border-box;
@@ -456,7 +636,7 @@ button:active {
 
 button:disabled {
     background-color: transparent;
-    color: var(--color--background--disabled-on);
+    color: var(--color--surface--disabled-on);
     cursor: default;
     pointer-events: none;
 }
@@ -532,8 +712,8 @@ button.raised:active {
 
 button.raised:disabled {
     box-shadow: var(--shadow--box--elevation-0dp);
-    background-color: var(--color--background--disabled);
-    color: var(--color--background--disabled-on);
+    background-color: var(--color--surface--disabled);
+    color: var(--color--surface--disabled-on);
 }
 
 button.raised .icon, button.unelevated .icon, button.outlined .icon {
@@ -567,8 +747,8 @@ button.unelevated {
 }
 
 button.unelevated:disabled {
-    background-color: var(--color--background--disabled);
-    color: var(--color--background--disabled-on);
+    background-color: var(--color--surface--disabled);
+    color: var(--color--surface--disabled-on);
 }
 
 button.unelevated:hover {
@@ -750,7 +930,7 @@ button.icon {
     box-sizing: border-box;
     background-color: transparent;
     fill: currentColor;
-    color: var(--color--background--icon-on);
+    color: var(--color--surface--icon-on);
     text-decoration: none;
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
     -webkit-user-select: none;
@@ -760,24 +940,24 @@ button.icon {
 }
 
 button.icon:disabled {
-    color: var(--color--background--disabled-on);
+    color: var(--color--surface--disabled-on);
     cursor: default;
     pointer-events: none;
 }
 
 button.icon:hover {
     border-radius: 50%;
-    background-color: var(--color--background--hover);
+    background-color: var(--color--surface--hover);
 }
 
 button.icon:focus {
     border-radius: 50%;
-    background-color: var(--color--background--focus);
+    background-color: var(--color--surface--focus);
 }
 
 button.icon:active {
     border-radius: 50%;
-    background-color: var(--color--background--active);
+    background-color: var(--color--surface--active);
     /* animation: mdc-ripple-fg-radius-in 225ms forwards, mdc-ripple-fg-opacity-in 75ms forwards; */
 }
 
@@ -804,7 +984,7 @@ button[role=switch] {
     width: 48px;
     height: 48px;
     padding: 12px;
-    color: var(--color--background--primary-on);
+    color: var(--color--surface--primary-on);
     outline: none;
     font-size: 1.5rem;
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
@@ -814,23 +994,23 @@ button[role=switch] {
 }
 
 button[role=switch]:disabled {
-    color: var(--color--background--disabled-on);
+    color: var(--color--surface--disabled-on);
     pointer-events: none;
 }
 
 button[role=switch]:hover {
     border-radius: 50%;
-    background-color: var(--color--background--hover);
+    background-color: var(--color--surface--hover);
 }
 
 button[role=switch]:focus {
     border-radius: 50%;
-    background-color: var(--color--background--focus);
+    background-color: var(--color--surface--focus);
 }
 
 button[role=switch]:active {
     border-radius: 50%;
-    background-color: var(--color--background--active);
+    background-color: var(--color--surface--active);
     /* animation: mdc-ripple-fg-radius-in 225ms forwards, mdc-ripple-fg-opacity-in 75ms forwards; */
 }
 
@@ -843,13 +1023,14 @@ button[role=switch][checked] :first-child, button[role=switch] :last-child {
 }
 
 /**
- * Toggle tab button
+ * Toggle button
+ * Toggle buttons group a set of actions using layout and spacing.
  *
-<button type=toggle id="activeTab" checked>
+<button type="toggle" checked>
 </button>
  */
 
-button[role="tab"] {
+button[type="toggle"] {
     display: flex;
 }
 
@@ -892,19 +1073,19 @@ input {
 }
 
 input:not(:disabled) {
-    color: var(--color--background--primary-on);
+    color: var(--color--surface--primary-on);
 }
 
 input::placeholder {
     transition: opacity 67ms cubic-bezier(0.4, 0, 0.2, 1);
     opacity: 0;
-    color: var(--color--background--secondary-on);
+    color: var(--color--surface--secondary-on);
 }
 
 input::-ms-input-placeholder {
     transition: opacity 67ms cubic-bezier(0.4, 0, 0.2, 1);
     opacity: 0;
-    color: var(--color--background--secondary-on) !important;
+    color: var(--color--surface--secondary-on) !important;
 }
 
 input+label {
@@ -3188,16 +3369,14 @@ select {
     border: none;
     border-bottom: 1px solid;
     outline: none;
-    background-color: transparent;
-    color: inherit;
     white-space: nowrap;
     cursor: pointer;
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
     appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
-    background-color: var(--color--middleground);
-    color: var(--color--middleground--primary-on);
+    background-color: var(--color--surface);
+    color: var(--color--surface--primary-on);
     border-bottom-color: var(--color--border);
 }
 
@@ -3208,8 +3387,8 @@ select:not(:disabled):hover {
 select:disabled {
     cursor: default;
     pointer-events: none;
-    background-color: var(--color--middleground--disabled);
-    color: var(--color--middleground--disabled-on);
+    background-color: var(--color--surface--disabled);
+    color: var(--color--surface--disabled-on);
     border-bottom-style: dotted;
 }
 
@@ -3836,7 +4015,7 @@ ul:not(:disabled)>li:not(:disabled):active {
 }
 
 li:disabled {
-    color: var(--color--background--disabled-on);
+    color: var(--color--surface--disabled-on);
 }
 
 li[checked] {
@@ -3879,7 +4058,7 @@ li .secondary-text {
     display: block;
     margin-top: 0;
     display: block;
-    color: var(--color--background--secondary-on);
+    color: var(--color--surface--secondary-on);
 }
 
 li .graphic {
@@ -4017,8 +4196,8 @@ dialog {
     flex-grow: 0;
     flex-shrink: 0;
     justify-content: center;
-    background-color: var(--color--background);
-    color: var(--color--background--primary-on);
+    background-color: var(--color--surface);
+    color: var(--color--surface--primary-on);
     box-sizing: border-box;
     border-style: none;
     border-radius: 4px;
@@ -4060,7 +4239,7 @@ dialog>header {
     letter-spacing: 0.0125em;
     text-decoration: inherit;
     text-transform: inherit;
-    color: var(--color--background--primary-on);
+    color: var(--color--surface--primary-on);
     position: relative;
     flex-shrink: 0;
     box-sizing: border-box;
@@ -4080,7 +4259,7 @@ dialog>div {
     letter-spacing: 0.03125em;
     text-decoration: inherit;
     text-transform: inherit;
-    color: var(--color--background--secondary-on);
+    color: var(--color--surface--secondary-on);
     flex-grow: 1;
     box-sizing: border-box;
     margin: 0;
@@ -4266,7 +4445,7 @@ dialog.drawer>header {
 }
 
 dialog.drawer>header>h3 {
-    color: var(--color--background--primary-on);
+    color: var(--color--surface--primary-on);
     font-size: 1.25rem;
     line-height: 2rem;
     font-weight: 500;
@@ -4281,7 +4460,7 @@ dialog.drawer>header>h3 {
 /* use as sub-header */
 
 dialog.drawer h6 {
-    color: var(--color--background--secondary-on);
+    color: var(--color--surface--secondary-on);
     font-size: 0.875rem;
     line-height: 1.25rem;
     font-weight: 400;
@@ -4868,17 +5047,17 @@ hr.inset.padded {
 }
 
 [role=tab]:hover {
-    background-color: var(--color--background--hover);
+    background-color: var(--color--surface--hover);
     transition: background-color 150ms linear;
 }
 
 [role=tab]:focus {
-    background-color: var(--color--background--focus);
+    background-color: var(--color--surface--focus);
     transition: background-color 150ms linear;
 }
 
 [role=tab]:active {
-    background-color: var(--color--background--active);
+    background-color: var(--color--surface--active);
     /* animation: mdc-ripple-fg-radius-in 225ms forwards, mdc-ripple-fg-opacity-in 75ms forwards; */
 }
 
@@ -5159,168 +5338,6 @@ hr.inset.padded {
     direction: ltr;
     -webkit-font-feature-settings: 'liga';
     -webkit-font-smoothing: antialiased;
-}
-
-/**
- *
- *
- * Card
- *
- *
- * https://material.io/develop/web/components/cards/
- */
-
-/**
- * Simple Card
- */
-
-.card {
-    display: flex;
-    flex-direction: column;
-    box-sizing: border-box;
-    box-shadow: var(--shadow--box--elevation-2dp);
-    background-color: var(--color--background);
-    border-radius: 4px;
-}
-
-.card[hidden] {
-    display: none !important;
-    /* DUE BROWSERS BUGS on use display: flex first */
-}
-
-.card>header {}
-
-.card>div {
-    position: relative;
-    box-sizing: border-box;
-    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-    display: flex;
-    flex-direction: column;
-    box-sizing: border-box;
-    position: relative;
-    outline: none;
-    color: inherit;
-    text-decoration: none;
-    cursor: pointer;
-    overflow: hidden;
-}
-
-.card>div:first-child {
-    border-top-left-radius: inherit;
-    border-top-right-radius: inherit;
-}
-
-.card>div:last-child {
-    border-bottom-left-radius: inherit;
-    border-bottom-right-radius: inherit;
-}
-
-.card>div.square {
-    margin-top: 100%;
-}
-
-.card>div.ar-16-9 {
-    margin-top: 56.25%;
-}
-
-.card>div>img {}
-
-/* Ripple effect */
-
-.card>div.ripple:hover {
-    background-color: var(--color--background--hover);
-}
-
-.card>div.ripple:focus, .card>div.ripple:focus-within {
-    background-color: var(--color--background--focus);
-}
-
-.card>div.ripple:active {
-    background-color: var(--color--background--active);
-    /* animation: mdc-ripple-fg-radius-in 225ms forwards, mdc-ripple-fg-opacity-in 75ms forwards; */
-}
-
-.card>footer {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    box-sizing: border-box;
-    min-height: 52px;
-    padding: 8px;
-}
-
-.card>footer.full-bleed {
-    justify-content: space-between;
-    width: 100%;
-    height: auto;
-    max-height: none;
-    margin: 0;
-    padding-right: 16px;
-    padding-left: 16px;
-    text-align: left;
-}
-
-[dir=rtl] .card>footer.full-bleed, .card>footer.full-bleed[dir=rtl] {
-    text-align: right;
-}
-
-.card>footer>.left, .card>footer>.right {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    box-sizing: border-box;
-}
-
-.card>footer>.right {
-    flex-grow: 1;
-    justify-content: flex-end;
-}
-
-.card>footer>.left+.card>footer>.right {
-    margin-left: 16px;
-    margin-right: 0;
-}
-
-[dir=rtl] .card>footer>.left+.card>footer>.right, .card footer .left+.card footer .right[dir=rtl] {
-    margin-left: 0;
-    margin-right: 16px;
-}
-
-.card>footer button {
-    margin-left: 0;
-    margin-right: 8px;
-    padding: 0 8px;
-}
-
-[dir=rtl] .card>footer button, .card>footer button[dir=rtl] {
-    margin-left: 8px;
-    margin-right: 0;
-}
-
-.card>footer button:last-child {
-    margin-left: 0;
-    margin-right: 0;
-}
-
-[dir=rtl] .card>footer button:last-child, .card>footer button:last-child[dir=rtl] {
-    margin-left: 0;
-    margin-right: 0;
-}
-
-.card>footer button.icon {
-    margin: -6px 0;
-    padding: 12px;
-}
-
-/**
- * Outlined Card
- */
-
-.card.outlined {
-    box-shadow: var(--shadow--box--elevation-0dp);
-    border-width: 1px;
-    border-style: solid;
-    border-color: #e0e0e0;
 }
 
 /**
@@ -5687,17 +5704,18 @@ hr.inset.padded {
  * Layout Grid
  *
  *
+ * https://material.io/design/layout/responsive-layout-grid.html
  * https://material.io/develop/web/components/layout-grid/
  *
  * Usage :
 <div class="layout-grid">
-    <div class="span-6 demo-cell"></div>
-    <div class="span-3 demo-cell"></div>
-    <div class="span-2 demo-cell"></div>
-    <div class="span-1 demo-cell"></div>
-    <div class="span-3 demo-cell"></div>
-    <div class="span-1 demo-cell"></div>
-    <div class="span-8 demo-cell"></div>
+    <div class="span-6"></div>
+    <div class="span-3"></div>
+    <div class="span-2"></div>
+    <div class="span-1"></div>
+    <div class="span-3"></div>
+    <div class="span-1"></div>
+    <div class="span-8"></div>
 </div>
  */
 
@@ -5806,8 +5824,8 @@ hr.inset.padded {
 
 @media (min-width: 840px) {
     .layout-grid {
-        /* padding: 24px; */
-        /* grid-gap: 24px; */
+        padding: 24px;
+        grid-gap: 24px;
         grid-template-columns: repeat(12, minmax(0, 1fr));
     }
     .layout-grid.fixed-column-width {
@@ -5844,10 +5862,10 @@ hr.inset.padded {
  * Tablet
  */
 
-@media (min-width: 480px) and (max-width: 839px) {
+@media (min-width: 600px) and (max-width: 839px) {
     .layout-grid {
-        /* padding: 16px; */
-        /* grid-gap: 16px; */
+        padding: 16px;
+        grid-gap: 16px;
         grid-template-columns: repeat(8, minmax(0, 1fr));
     }
     .layout-grid.fixed-column-width {
@@ -5884,10 +5902,10 @@ hr.inset.padded {
  * Phone
  */
 
-@media (max-width: 479px) {
+@media (max-width: 599px) {
     .layout-grid {
-        /* padding: 16px; */
-        /* grid-gap: 16px; */
+        padding: 16px;
+        grid-gap: 16px;
         grid-template-columns: repeat(4, minmax(0, 1fr));
     }
     .layout-grid.fixed-column-width {

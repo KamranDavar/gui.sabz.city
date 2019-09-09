@@ -6,7 +6,7 @@ import '../widgets/widget-menu-user.js'
 
 Application.Pages["dev"] = {
     ID: "dev",
-    RecordID: "",
+    RecordID: null,
     Condition: {},
     State: "",
     Robots: "all",

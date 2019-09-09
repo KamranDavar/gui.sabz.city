@@ -6,10 +6,8 @@ import '../widgets/widget-menu-user.js'
 
 Application.Pages["login"] = {
     ID: "login",
-    RecordID: "",
-    Condition: {
-        "redirect-url": "",
-    },
+    RecordID: null,
+    Condition: {},
     State: "",
     Robots: "all",
     Info: {
@@ -98,9 +96,13 @@ Application.Pages["login"].login = function () {
     Application.UserPreferences.UsersState.ActiveUserID = ""
     Application.UserPreferences.UsersState.UsersID.push(Application.UserPreferences.UsersState.ActiveUserID)
 
-    // send user to redirect-url if exist or my home page as default login page
-    if (Application.Pages["login"].Condition["redirect-url"]) Application.Pages["login"].Condition["redirect-url"] = "/my"
-    window.location.replace(Application.Pages["login"].Condition["redirect-url"])
+    // send user to last page if exist or my home page as default login page
+    if (Application.PreviousPage && Application.PreviousPage.ActiveURI) {
+        window.location.replace(Application.PreviousPage.ActiveURI)
+    } else {
+        window.location.replace("/my")
+    }
+
 }
 
 // Animation const helper

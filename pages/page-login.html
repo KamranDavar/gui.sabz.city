@@ -1,6 +1,6 @@
 <!-- For license and copyright information please see LEGAL file in repository -->
 
-<header class="app-bar">
+<header>
     <span class="left">
         <widget-hamburger-menu></widget-hamburger-menu>
         <a href="/"><img alt="SabzCity logo" src="/images/app-icon-48x48.png" /></a>
@@ -15,11 +15,11 @@
 </header>
 
 <main>
-    <section id="usernamePhase">
-        <section class="card">
+    <div id="usernamePhase">
+        <article>
             <header>
-                <h2 class="typography--headline5">${Application.Pages["login"].LocaleText[1]}</h2>
-                <h3 class="typography--subtitle1">${Application.Pages["login"].LocaleText[2]}</h3>
+                <h1 class="typography--headline5">${Application.Pages["login"].LocaleText[1]}</h1>
+                <h2 class="typography--subtitle1">${Application.Pages["login"].LocaleText[2]}</h2>
             </header>
 
             <div id="getUsername" class="input">
@@ -34,11 +34,11 @@
                     </button>
                 </div>
             </footer>
-        </section>
+        </article>
 
-        <section class="card social-login">
+        <article class="social-login">
             <header>
-                <h3 class="typography--subtitle1">${Application.Pages["login"].LocaleText[11]}</h3>
+                <h1 class="typography--subtitle1">${Application.Pages["login"].LocaleText[11]}</h1>
             </header>
 
             <div>
@@ -64,18 +64,20 @@
                     <img src="/images/telegram-logo.svg" alt="Telegram platform logo" />
                 </a>
             </div>
-        </section>
+        </article>
 
-        <section class="card typography--subtitle2">
-            <a href="/register"> ${Application.Pages["login"].LocaleText[4]} </a>
-        </section>
-    </section>
-
-    <section id="passwordPhase" hidden>
-        <div class="card">
+        <article>
             <header>
-                <h2 class="typography--headline5">Hi ${this.userName}</h2>
-                <h3 class="typography--subtitle1">${Application.Pages["login"].LocaleText[5]}</h3>
+                <a href="/register"> ${Application.Pages["login"].LocaleText[4]} </a>
+            </header>
+        </article>
+    </div>
+
+    <div id="passwordPhase" hidden>
+        <article>
+            <header>
+                <h1 class="typography--headline5">Hi ${this.userName}</h1>
+                <h2 class="typography--subtitle1">${Application.Pages["login"].LocaleText[5]}</h2>
             </header>
 
             <div class="input">
@@ -99,10 +101,12 @@
                     </button>
                 </div>
             </footer>
-        </div>
+        </article>
 
-        <section class="card typography--subtitle2">
-            <a href="/recover">${Application.Pages["login"].LocaleText[8]} </a>
-        </section>
-    </section>
+        <article>
+            <header>
+                <a href="/recover">${Application.Pages["login"].LocaleText[8]} </a>
+            </header>
+        </article>
+    </div>
 </main>

@@ -77,7 +77,7 @@ init()
 
 function main() {
     // Do routing!
-    Application.Router(window.location.pathname.split('/')[1], window.location.pathname.split('/')[2])
+    Application.Router("", window.location.href)
 }
 // Call main function to application work on not supported browsers!! that now there is no browser!! ;)
 main()

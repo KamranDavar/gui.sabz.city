@@ -4,6 +4,7 @@ import { html, css, LitElement, unsafeCSS } from '../lit-element/lit-element.js'
 import { GetUserData } from '../apis.sabz.city-SDK-JS/usersinfo/get-users-data.js'
 
 Application.Widgets["user-menu"] = {
+    ID: "user-menu",
     Text: {
         "en": [
             "Go to login page",
@@ -18,7 +19,7 @@ Application.Widgets["user-menu"] = {
     }
 }
 
-export class WidgetUserMenu extends LitElement {
+Application.Widgets["user-menu"].HTML = class extends LitElement {
     constructor() {
         super()
         this.userLoggedIn = false
@@ -54,11 +55,11 @@ export class WidgetUserMenu extends LitElement {
     }
     render() {
         return html`
-            <a href=${this.userLoggedIn ? "/sessions" : Application.ActivePage.ID === "login" ? "/login": "/login?redirect-url=" + window.location.href} title=${this.userLoggedIn ?
+            <a href=${this.userLoggedIn ? "/sessions" : "/login"} title=${this.userLoggedIn ?
                 Application.Widgets["user-menu"].LocaleText[1] : Application.Widgets["user-menu"].LocaleText[0]}>
                 <img alt=${Application.Widgets["user-menu"].LocaleText[2]} src=${this.userPicture} />
             </a>
         `
     }
 }
-customElements.define('widget-user-menu', WidgetUserMenu)
+customElements.define('widget-user-menu', Application.Widgets["user-menu"].HTML)

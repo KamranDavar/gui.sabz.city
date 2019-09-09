@@ -5,6 +5,11 @@ import '../widgets/widget-menu-service.js'
 import '../widgets/widget-menu-user.js'
 
 Application.Pages["orgs"] = {
+    ID: "orgs",
+    RecordID: "",
+    Condition: {},
+    State: "",
+    Robots: "all",
     Info: {
         "en": { Name: "Organizations", ShortName: "Orgs", Tagline: "", Slogan: "", Description: "", Tags: [] },
         "fa": { Name: "سازمان ها", ShortName: "سازمان ها", Tagline: "", Slogan: "", Description: "", Tags: [] }
@@ -22,4 +27,7 @@ Application.Pages["orgs"] = {
 
 Application.Pages["orgs"].ConnectedCallback = function () {
     window.document.body.innerHTML = eval('`' + Application.ActivePage.HTML + '`')
+}
+
+Application.Pages["orgs"].DisconnectedCallback = function () {
 }

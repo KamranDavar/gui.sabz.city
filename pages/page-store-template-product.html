@@ -1,26 +1,27 @@
 <!-- For license and copyright information please see LEGAL file in repository -->
+<!-- https://schema.org/Product -->
 
-<section class="card span-2" title="Product detail">
+<article class="span-2" title="Product detail" typeof="Product">
     <a href='${"/product/" + p.ID}'>
         <header>
-            <img src=${p.Pictures[0]} alt=${p.Name} />
-            <h2 class="typography--subtitle1">${p.Name}</h2>
+            <img src=${p.Pictures[0]} alt=${p.Name} property="image" />
+            <h1 property="name">${p.Name}</h1>
         </header>
-        <div>
-            <span title="Product quality stars">
+        <div property="aggregateRating" typeof="AggregateRating">
+            <span title="Product quality stars" property="ratingValue">
                 <i class="icons-font">star</i>
                 <i class="icons-font">star</i>
                 <i class="icons-font">star</i>
                 <i class="icons-font">star_half</i>
                 <i class="icons-font">star_border</i>
             </span>
-            <span title="User give stars number">1589</span>
+            <span title="User give stars number" property="reviewCount">1589</span>
         </div>
         <div>
             <span title="Discount percent">${p.DiscountPercent}%</span>
             <del title="Real price">${p.Price}</del>
             <ins title="Payable price">${p.Price * (100 - p.DiscountPercent) / 100}</ins>
-            <span title="Currency">${Application.UserPreferences.ContentPreferences.Currency.symbol}</span>
+            <span title="Currency" property="priceCurrency">${Application.UserPreferences.ContentPreferences.Currency.symbol}</span>
 
             <span title="Discount end time"></span>
             <span title="Discount claimed bar"></span>
@@ -35,4 +36,4 @@
             <i class="icons-font">add_shopping_cart</i>
         </button>
     </footer>
-</section>
+</article>

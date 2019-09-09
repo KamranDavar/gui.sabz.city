@@ -1,11 +1,9 @@
 /* For license and copyright information please see LEGAL file in repository */
 
-.card {
-    width: 225px;
-    margin: 10px;
+.layout-grid {
+    margin: 10px auto;
 }
 
-.card img {
-    width: auto;
+#suggestedProducts article img {
     height: 180px;
 }

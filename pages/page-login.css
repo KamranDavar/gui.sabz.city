@@ -6,8 +6,18 @@ main {
     margin-right: auto;
 }
 
-.card {
+article {
     margin: 16px 0;
+}
+
+article header>a {
+    text-align: center;
+    padding: 32px;
+}
+
+article .input {
+    margin: 32px;
+    text-align: center;
 }
 
 .typography--headline5 {
@@ -18,16 +28,6 @@ main {
 .typography--subtitle1 {
     text-align: center;
     margin: 8px 0;
-}
-
-.card .input {
-    margin: 32px;
-    text-align: center;
-}
-
-.card>a {
-    text-align: center;
-    padding: 32px;
 }
 
 @media screen and (max-width: 480px) {

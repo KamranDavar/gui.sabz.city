@@ -2,6 +2,7 @@
 
 main {
     padding: 4px;
+    background-color: var(--color--surface);
 }
 
 Button.file {
@@ -9,8 +10,8 @@ Button.file {
     width: 100%;
 }
 
-summary {
-    background-color: var(--color--middleground);
+section#explorer {
+    background-color: var(--color--surface--dark);
 }
 
 summary h1 {
@@ -28,6 +29,6 @@ summary h3 {
     font-size: 0.8rem;
 }
 
-div > a {
+div>a {
     display: contents;
 }

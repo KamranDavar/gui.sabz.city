@@ -1,29 +1,33 @@
 # GUI (Graphical User Interface) app for SabzCity platform
 We use some written GUI engine to compile GUI app to native devices OS and web! GUI engines just support HTML5 standard, So we develop this gui app by HTML5 architecture standards like progressive web app (PWA) with so improvement.
 
+## Information architecture
+### Semantic content
+We always care to write content in semantic way by all resources.
+- https://html.spec.whatwg.org/multipage/
+- https://www.w3.org/TR/rdfa-core/
+- https://www.w3.org/TR/rdfa-lite/
+- https://schema.org/
+- https://search.google.com/structured-data/testing-tool
+
 ## Design Methodology
-We use AtomicDesign! So web app split in many way. Largest split is about services such as accounting, blog, cloud, landings, life, my, org, services, store, transport, widget , ... .
+We respect semantic content and style content by design languages.
 - https://developers.google.com/web/fundamentals/design-and-ux/responsive/
 
 ## Localize
 ### URL
-We use hl(hreflang) query in url like others e.g. google, instagram, ...!   
+We use hl(hreflang) parameter in url like others e.g. google, instagram, ...!   
 - https://www.google.com/search?hl=en&q=sabz.city
 - https://www.instagram.com/sabz.city/?hl=en
 
 - [ISO 639](https://www.iso.org/iso-639-language-codes.html) for language
 - [ISO 3166](https://en.wikipedia.org/wiki/ISO_3166) for region code
-### Title page
-Indicate info name in all window.Application.Pages.
 
 ## URL standard
 We use page name (service name) for indicate in URL. e.g   
 ` {domain}/{page-name}/{resource-uuid}?hl=en&{}={} `   
 e.g.   
 ` www.sabz.city/product/123456789?name=product_name&hl=en `
-
-## Reference to code better!
-- https://html.spec.whatwg.org/multipage/
 
 ## Some dependencies download location:
 - https://unpkg.com/lit-element@latest/

@@ -3,6 +3,7 @@
 import { LitElement, html, css, unsafeCSS } from '../lit-element/lit-element.js'
 
 Application.Widgets["presentation-preferences"] = {
+    ID: "presentation-preferences",
     Text: {
         "en": [
             "",
@@ -27,7 +28,7 @@ Application.Widgets["presentation-preferences"] = {
     }
 }
 
-export class WidgetPresentationPreferences extends LitElement {
+Application.Widgets["presentation-preferences"].HTML = class extends LitElement {
     static get properties() {
         return {}
     }
@@ -38,7 +39,7 @@ export class WidgetPresentationPreferences extends LitElement {
         return css`
             @import '${unsafeCSS(Application.DesignLanguageStyles.href)}';
 
-            section {
+            article {
                 position: relative;
                 max-width: 600px;
                 text-align: center;
@@ -51,9 +52,9 @@ export class WidgetPresentationPreferences extends LitElement {
     }
     render() {
         return html`
-            <section class="card">
+            <article>
                 <header>
-                    <h3>${Application.Widgets["presentation-preferences"].LocaleText[1]}</h3>
+                    <h1>${Application.Widgets["presentation-preferences"].LocaleText[1]}</h1>
                 </header>
             
                 <div>
@@ -80,7 +81,7 @@ export class WidgetPresentationPreferences extends LitElement {
                     </select>
                     <label for="font">${Application.Widgets["presentation-preferences"].LocaleText[4]}</label>
                 </div>
-            </section>
+            </article>
         `
     }
     setDesignLanguage() {
@@ -96,4 +97,4 @@ export class WidgetPresentationPreferences extends LitElement {
         Application.LoadFontFamilies()
     }
 }
-customElements.define('widget-presentation-preferences', WidgetPresentationPreferences)
+customElements.define('widget-presentation-preferences', Application.Widgets["presentation-preferences"].HTML)

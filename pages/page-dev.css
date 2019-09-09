@@ -1,7 +1,7 @@
 /* For license and copyright information please see LEGAL file in repository */
 
-section>header {
+article>header {
     display: inline-flex;
-    background-color: var(--color--middleground);
+    background-color: var(--color--surface);
     width: 100%;
 }

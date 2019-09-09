@@ -3,6 +3,7 @@
 import { html, css, LitElement, unsafeCSS } from '../lit-element/lit-element.js'
 
 Application.Widgets["hamburger-menu"] = {
+    ID: "hamburger-menu",
     Text: {
         "en": [
             "",
@@ -23,7 +24,7 @@ Application.Widgets["hamburger-menu"] = {
     }
 }
 
-export class WidgetHamburgerMenu extends LitElement {
+Application.Widgets["hamburger-menu"].HTML = class extends LitElement {
     // constructor() {
     //     super()
     // }
@@ -94,7 +95,7 @@ export class WidgetHamburgerMenu extends LitElement {
                                 </a>
                             </li>
                             <li ?checked=${Application.ActivePage.ID === "localize"}>
-                                <a @click=${this.invertDialogOpen} href=${"/localize?redirect-url=" + window.location.href}>
+                                <a @click=${this.invertDialogOpen} href="/localize">
                                     <i class="icons-font">language</i>
                                     <span class="typography--body2">${Application.Widgets["hamburger-menu"].LocaleText[1]}</span>
                                 </a>
@@ -120,4 +121,4 @@ export class WidgetHamburgerMenu extends LitElement {
         this.dialogOpen = !this.dialogOpen
     }
 }
-customElements.define('widget-hamburger-menu', WidgetHamburgerMenu)
+customElements.define('widget-hamburger-menu', Application.Widgets["hamburger-menu"].HTML)
