@@ -35,7 +35,12 @@ e.g.
 - https://unpkg.com/material-components-web@latest/
 - https://github.com/templarian/materialdesign-svg
 
-## Some VSC extensions to code easily
+## Editors
+### VSC
+You must set this in settings to adjust formatter to fit this project before contributes
+- html.format.wrapLineLength = 0
+
+Some extensions to code easily
 - [lit-html](https://marketplace.visualstudio.com/items?itemName=bierner.lit-html)
 - [Template Literal Editor](https://marketplace.visualstudio.com/items?itemName=plievone.vscode-template-literal-editor)
 - [vscode-styled-components](https://marketplace.visualstudio.com/items?itemName=jpoissonnier.vscode-styled-components)

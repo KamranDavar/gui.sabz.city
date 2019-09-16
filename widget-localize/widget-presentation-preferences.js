@@ -37,7 +37,7 @@ Application.Widgets["presentation-preferences"].HTML = class extends LitElement 
     // }
     static get styles() {
         return css`
-            @import '${unsafeCSS(Application.DesignLanguageStyles.href)}';
+            @import '${unsafeCSS(Application.DesignLanguageStyles)}';
 
             article {
                 position: relative;

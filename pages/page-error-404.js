@@ -30,7 +30,10 @@ Application.Pages["error-404"] = {
             "صفحه ای که دنبالش میگردید وجود ندارد",
             "رفتن به خانه"
         ],
-    }
+    },
+    HTML: "",
+    CSS: "",
+    Templates: {}
 }
 
 Application.Pages["error-404"].ConnectedCallback = function () {

@@ -13,7 +13,7 @@ Application.Widgets["product-search"] = {
     }
 }
 
-export class WidgetProductSearch extends LitElement {
+Application.Widgets["product-search"].HTML = class extends LitElement {
     // constructor() {
     //     super()
     // }
@@ -24,7 +24,7 @@ export class WidgetProductSearch extends LitElement {
     }
     static get styles() {
         return css`
-            @import '${unsafeCSS(Application.DesignLanguageStyles.href)}';
+            @import '${unsafeCSS(Application.DesignLanguageStyles)}';
             
             dialog {
                 position: absolute;
@@ -152,4 +152,4 @@ export class WidgetProductSearch extends LitElement {
         window.dispatchEvent(new Event('pushState'))
     }
 }
-customElements.define('widget-product-search', WidgetProductSearch)
+customElements.define('widget-product-search', Application.Widgets["product-search"].HTML)

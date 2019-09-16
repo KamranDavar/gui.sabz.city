@@ -42,13 +42,15 @@ window.Application = {
     // Can load all pages element on start || load most used pages || lazy-load on user request! (better idea??)
     Pages: {
         "": {
-            ID: "repo", // same as pages key
+            ID: "", // same as pages key
             ActiveURI: "",
             PreviousURI: "",
-            RecordID: "", // As engine standard, second part of URL use as RecordID to display information
+            RecordID: null, // As engine standard, second part of URL use as RecordID to display information
             Condition: {}, // As engine standard, URL parameters use as page Condition to show information
             State: "", // As standard, URL hash use as page State to show information from that state
             Robots: "", // "all", "noindex", "nofollow", "none", "noarchive", "nosnippet", "notranslate", "noimageindex", "unavailable_after: [RFC-850 date/time]"
+            Icon: "",
+            Related: ["", ""],
             Info: {
                 "": { Name: "", ShortName: "", Tagline: "", Slogan: "", Description: "", Tags: [] },
             },
@@ -57,7 +59,9 @@ window.Application = {
                 "": ["", "", ""]
             },
             LocaleText: {},
-            HTML: null, CSS: null, Templates: {}, Icon: "", Related: ["", ""]
+            HTML: "",
+            CSS: "",
+            Templates: {},
         },
     },
     Landings: {},
@@ -123,16 +127,16 @@ window.Application = {
  */
 Application.LoadDesignLanguageStyles = function () {
     if (Application.UserPreferences.PresentationPreferences.DesignLanguage === "material") {
-        Application.DesignLanguageStyles.href = "/design-languages/design-language--material.css"
-
+        Application.DesignLanguageStyles = "/design-languages/design-language--material.css"
+        designLanguageElement.href = Application.DesignLanguageStyles
         // Load related icon font family
         // https://fonts.googleapis.com/icon?family=Material+Icons
         const iconsFont = new FontFace('Material Icons', 'url(https://fonts.gstatic.com/s/materialicons/v47/flUhRq6tzZclQEJ-Vdg-IuiaDsNc.woff2)');
         iconsFont.load()
         window.document.fonts.add(iconsFont)
-    } else if (Application.UserPreferences.PresentationPreferences.DesignLanguage === "flat") Application.DesignLanguageStyles.href = "/design-languages/design-language--flat.css"
-    else if (Application.UserPreferences.PresentationPreferences.DesignLanguage === "fluent") Application.DesignLanguageStyles.href = "/design-languages/design-language--fluent.css"
-    else if (Application.UserPreferences.PresentationPreferences.DesignLanguage === "ant") Application.DesignLanguageStyles.href = "/design-languages/design-language--ant.css"
+    } else if (Application.UserPreferences.PresentationPreferences.DesignLanguage === "flat") Application.DesignLanguageStyles = "/design-languages/design-language--flat.css"
+    else if (Application.UserPreferences.PresentationPreferences.DesignLanguage === "fluent") Application.DesignLanguageStyles = "/design-languages/design-language--fluent.css"
+    else if (Application.UserPreferences.PresentationPreferences.DesignLanguage === "ant") Application.DesignLanguageStyles = "/design-languages/design-language--ant.css"
 }
 
 /**
@@ -154,35 +158,37 @@ Application.LoadFontFamilies = function () {
 Application.LoadColorScheme = function () {
     if (Application.UserPreferences.PresentationPreferences.ColorScheme === "no-preference") {
         // get browser or OS preference
-        cssVariablesElement.href = "/design-languages/variables-light.css"
-    } else if (Application.UserPreferences.PresentationPreferences.ColorScheme === "dark") cssVariablesElement.href = "/design-languages/variables-light.css"
-    else if (Application.UserPreferences.PresentationPreferences.ColorScheme === "light") cssVariablesElement.href = "/design-languages/variables-light.css"
+        themeStylesElement.href = "/design-languages/theme-light.css"
+    } else if (Application.UserPreferences.PresentationPreferences.ColorScheme === "dark") themeStylesElement.href = "/design-languages/theme-light.css"
+    else if (Application.UserPreferences.PresentationPreferences.ColorScheme === "light") themeStylesElement.href = "/design-languages/theme-light.css"
 }
 
+let designLanguageElement
+let themeStylesElement
 let pageStylesElement
-let cssVariablesElement
 
 function init() {
-    Application.DesignLanguageStyles = window.document.createElement("link")
-    Application.DesignLanguageStyles.rel = "stylesheet"
-    Application.DesignLanguageStyles.type = "text/css"
-    window.document.head.appendChild(Application.DesignLanguageStyles)
-
-    pageStylesElement = window.document.createElement("style")
-    window.document.head.appendChild(pageStylesElement)
-
-    cssVariablesElement = window.document.createElement('link')
-    cssVariablesElement.rel = "stylesheet"
-    cssVariablesElement.type = "text/css"
-    window.document.head.appendChild(cssVariablesElement)
-
     // Check user last user preferences state if exist!
     let up = localStorage.getItem('UserPreferences')
     if (up) copyObject(JSON.parse(up), Application.UserPreferences)
 
+    designLanguageElement = window.document.createElement("link")
+    designLanguageElement.rel = "stylesheet"
+    designLanguageElement.type = "text/css"
+    window.document.head.appendChild(designLanguageElement)
     Application.LoadDesignLanguageStyles()
-    Application.LoadFontFamilies()
+
+    // Load theme early to respect page styles!
+    themeStylesElement = window.document.createElement('link')
+    themeStylesElement.rel = "stylesheet"
+    themeStylesElement.type = "text/css"
+    window.document.head.appendChild(themeStylesElement)
     Application.LoadColorScheme()
+
+    pageStylesElement = window.document.createElement("style")
+    window.document.head.appendChild(pageStylesElement)
+
+    Application.LoadFontFamilies()
 }
 init()
 
@@ -279,6 +285,10 @@ Application.Localize = function () {
         let widget = Application.Widgets[key]
         widget.LocaleText = widget.Text[Application.UserPreferences.ContentPreferences.Language.iso639_1]
     }
+    for (let key in Application.Landings) {
+        let landing = Application.Landings[key]
+        landing.LocaleText = landing.Text[Application.UserPreferences.ContentPreferences.Language.iso639_1]
+    }
 
     Application.Polyfill.SetLangAndDir()
     Application.Polyfill.SupportedLanguagesAlternateLink()
@@ -303,99 +313,65 @@ Application.Router = function (requestedPageName, uri) {
     // Save previous page for any usage!
     Application.PreviousPage = Application.ActivePage
 
-    // Find and show requested app if it loaded before!
+    // Find requested app!
     Application.ActivePage = Application.Pages[requestedPageName]
-    if (Application.ActivePage) {
-        Application.ActivePage.PreviousURI = Application.ActivePage.ActiveURI
-        Application.ActivePage.ActiveURI = URI
-
-        // Set page RecordID! and check requested page support get RecordID!
-        if ((Application.ActivePage.RecordID === undefined || Application.ActivePage.RecordID === null) &&
-            (recordID !== undefined)) {
-            Application.Router("error-404", "")
-            return
-        } else {
-            Application.ActivePage.RecordID = recordID
-        }
-
-        // Set page state same as hash in URLs!
-        Application.ActivePage.State = URI.hash
-
-        // Set page condition same as parameters in URLs! and check requested condition support by page!
-        for (let sp of URI.searchParams.keys()) {
-            // some application internal params
-            if (sp === "hl" || sp === "utm_source" || sp === "utm_medium" || sp === "utm") continue
-
-            if (Application.ActivePage.Condition[sp] === undefined) {
-                if (Application.ActivePage.ID !== "error-404") {
-                    Application.Router("error-404", "")
-                    return
-                }
-                break
-            } else if (Array.isArray(Application.ActivePage.Condition[sp])) {
-                Application.ActivePage.Condition[sp] = URI.searchParams.getAll(sp)
-            } else {
-                Application.ActivePage.Condition[sp] = URI.searchParams.get(sp)
-            }
-        }
-
-        // lazy load requestedPageName files if not loaded before. It will just use for development phase!
-        if (!Application.ActivePage.HTML) {
-            for (let tem in Application.Pages[requestedPageName].Templates) {
-                fetch("/pages/page-" + requestedPageName + "-template-" + tem + ".html").then(res => res.text()).then(res => Application.Pages[requestedPageName].Templates[tem] = res)
-            }
-            fetch("/pages/page-" + requestedPageName + ".html").then(res => res.text()).then(res => {
-                Application.Pages[requestedPageName].HTML = res
-                Application.Pages[requestedPageName].ConnectedCallback()
-            })
-            fetch("/pages/page-" + requestedPageName + ".css").then(res => res.text()).then(res => {
-                Application.Pages[requestedPageName].CSS = res
-                pageStylesElement.innerHTML = res
-            })
-        } else {
-            // Add page HTML & CSS to DOM
-            pageStylesElement.innerHTML = Application.ActivePage.CSS
-            Application.ActivePage.ConnectedCallback()
-        }
-
-        // Update page title with page full name and update some meta tags! 
-        window.document.title = Application.ActivePage.LocaleInfo.Name
-        window.document.description.content = Application.ActivePage.LocaleInfo.Description
-        window.document.robots.content = Application.ActivePage.Robots
-        // Twitter card  https://developer.twitter.com/en/docs/tweets/optimize-with-cards/guides/getting-started.html
-        // The Open Graph protocol https://www.ogp.me/
-    }
-    // Load landing by name or ID
-    else if (requestedPageName = "landings" && recordID) {
+    if (!Application.ActivePage && requestedPageName === "landings" && recordID) {
         Application.ActivePage = Application.Landings[recordID]
-        if (!Application.ActivePage) {
-            import("/landings/landing-" + recordID + ".js")
-                .then(() => {
-                    Application.ActivePage = Application.Landings[recordID]
-                    Application.Landings[recordID].LocaleText = Application.Landings[recordID].Text[Application.UserPreferences.ContentPreferences.Language.iso639_1]
-                    fetch("/landings/landing-" + recordID + ".html").then(res => res.text()).then(res => {
-                        Application.ActivePage.HTML = eval('`' + res + '`')
-                        window.document.body.innerHTML = Application.ActivePage.HTML
-                    })
-                    fetch("/landings/landing-" + recordID + ".css").then(res => res.text()).then(res => {
-                        Application.ActivePage.CSS = res
-                        pageStylesElement.innerHTML = res
-                    })
-                })
-                .catch(err => Application.Router("error-404", ""))
-        } else {
-            pageStylesElement.innerHTML = Application.ActivePage.CSS
-            window.document.body.innerHTML = Application.ActivePage.HTML
-        }
-        // Update page title with page full name and update some meta tags! 
-        window.document.title = Application.ActivePage.LocaleInfo.Name
-        window.document.description.content = Application.ActivePage.LocaleInfo.Description
-        window.document.robots.content = Application.ActivePage.Robots
-    } else {
+    }
+    if (!Application.ActivePage) {
         // Requested page not exist
         Application.Router("error-404", "")
         return
     }
+
+    // Will remove when www.sabz.city ready to use
+    if (Application.ActivePage.HTML === "") Application.Polyfill.LoadHtmlCSS(Application.ActivePage, requestedPageName === "landings")
+
+    Application.ActivePage.PreviousURI = Application.ActivePage.ActiveURI
+    Application.ActivePage.ActiveURI = URI
+
+    // Check requested page support get RecordID!
+    if (Application.ActivePage.RecordID === null && recordID !== undefined) {
+        // Requested page not exist
+        Application.Router("error-404", "")
+        return
+    }
+    // Set page RecordID!
+    Application.ActivePage.RecordID = recordID
+
+    // Set page state same as hash in URLs!
+    Application.ActivePage.State = URI.hash
+
+    // Set page condition same as parameters in URLs! and check requested condition support by page!
+    for (let sp of URI.searchParams.keys()) {
+        // some application internal params
+        if (sp === "hl" || sp === "utm_source" || sp === "utm_medium" || sp === "utm_campaign") continue
+
+        if (Application.ActivePage.Condition[sp] === undefined) {
+            if (Application.ActivePage.ID !== "error-404") {
+                // Requested page not exist
+                Application.Router("error-404", "")
+                return
+            }
+            break
+        } else if (Array.isArray(Application.ActivePage.Condition[sp])) {
+            Application.ActivePage.Condition[sp] = URI.searchParams.getAll(sp)
+        } else {
+            Application.ActivePage.Condition[sp] = URI.searchParams.get(sp)
+        }
+    }
+
+    // Update page title with page full name and update some meta tags!
+    // This data also can be update in each page by ConnectedCallback method!
+    window.document.title = Application.ActivePage.LocaleInfo.Name
+    window.document.description.content = Application.ActivePage.LocaleInfo.Description
+    window.document.robots.content = Application.ActivePage.Robots
+    // Twitter card  https://developer.twitter.com/en/docs/tweets/optimize-with-cards/guides/getting-started.html
+    // The Open Graph protocol https://www.ogp.me/
+
+    // Add page HTML & CSS to DOM
+    pageStylesElement.innerHTML = Application.ActivePage.CSS
+    Application.ActivePage.ConnectedCallback()
 }
 
 /**
@@ -475,7 +451,8 @@ Application.Polyfill.PWA = function () {
             // theme_color: Application.PresentationPreferences.ThemeColor,
             display: Application.PresentationPreferences.Display,
             orientation: Application.PresentationPreferences.Orientation,
-            start_url: "/" + Application.Pages.Home,
+            start_url: window.location.origin + "/" + Application.HomePage + "?utm_source=PWA&utm_medium=homescreen",
+            icons: [{ "sizes": "512x512", "type": "image/png", src: window.location.origin + Application.Icon }],
         })
         window.document.head.appendChild(manifest)
     }
@@ -504,7 +481,7 @@ Application.Polyfill.Meta = function () {
 Application.Polyfill.SetLangAndDir = function () {
     // change <html lang="en" dir="ltr"> in language change
     window.document.documentElement.lang = Application.UserPreferences.ContentPreferences.Language.iso639_1 + "-" + Application.UserPreferences.ContentPreferences.Region.iso3166_1_a2
-    // window.document.dir = Application.UserPreferences.ContentPreferences.Language.dir
+    window.document.dir = Application.UserPreferences.ContentPreferences.Language.dir
 }
 
 /**
@@ -567,6 +544,35 @@ Application.Polyfill.SuggestLanguage = function () {
     )
 }
 
+/**
+ * lazy load pages files! It will just use until dedicated web server(www.sabz.city repo) ready to use!
+ */
+Application.Polyfill.LoadHtmlCSS = function (page, landings) {
+    const xhr = new XMLHttpRequest()
+
+    let location = "/pages/page-"
+    if (landings) location = "/landings/landing-"
+
+    for (let tem in page.Templates) {
+        xhr.open("GET", location + page.ID + "-template-" + tem + ".html", false)
+        xhr.send(null)
+        if (xhr.status === 200) {
+            page.Templates[tem] = xhr.responseText
+        }
+    }
+
+    xhr.open("GET", location + page.ID + ".html", false)
+    xhr.send(null)
+    if (xhr.status === 200) {
+        page.HTML = xhr.responseText
+    }
+
+    xhr.open("GET", location + page.ID + ".css", false)
+    xhr.send(null)
+    if (xhr.status === 200) {
+        page.CSS = xhr.responseText
+    }
+}
 
 /**
  * 

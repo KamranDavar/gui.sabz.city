@@ -29,6 +29,8 @@ import '/pages/page-error-403.js'
 import '/pages/page-error-404.js'
 import '/pages/page-error-500.js'
 
+import '/landings/landing-about-finance.js'
+
 function init() {
     Application.Initialize(
         {

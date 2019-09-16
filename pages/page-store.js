@@ -19,6 +19,7 @@ Application.Pages["store"] = {
         "ownOrder": false, // all products user buy before
     },
     State: "",
+    Robots: "noindex, follow, noarchive, noimageindex",
     Info: {
         "en": { Name: "Store", ShortName: "Store", Tagline: "", Slogan: "", Description: "", Tags: [] },
         "fa": { Name: "فروشگاه", ShortName: "فروشگاه", Tagline: "", Slogan: "", Description: "", Tags: [] }
@@ -42,21 +43,18 @@ Application.Pages["store"] = {
 Application.Pages["store"].ConnectedCallback = function () {
     window.document.body.innerHTML = Application.ActivePage.HTML
 
+    const productsMain = window.document.getElementById("productsMain")
+    let products = []
     if (Application.Pages["store"].Condition["q"] !== "" ||
         Application.Pages["store"].Condition["tags"].length !== 0 ||
         Application.Pages["store"].Condition["sort"] !== "") {
-        let products = ["12345"]
-        products.map(id => {
-            window.document.getElementById("productsMain")
-                .insertAdjacentHTML('beforeend', Application.Pages["store"].getProduct(id))
-        })
+        products = ["12345"]
     } else {
         // TODO : Persistence state in time line even if route occur!
-        let products = ["12345", "5453", "5454", "8547", "8889"]
-        products.map(id => {
-            window.document.getElementById("productsMain")
-                .insertAdjacentHTML('beforeend', Application.Pages["store"].getProduct(id))
-        })
+        products = ["12345", "5453", "5454", "8547", "8889"]
+    }
+    for (let id of products) {
+        productsMain.insertAdjacentHTML('beforeend', Application.Pages["store"].getProduct(id))
     }
 }
 
@@ -73,59 +71,109 @@ Application.Pages["store"].DisconnectedCallback = function () {
  */
 Application.Pages["store"].getProduct = function (uuid) {
     // Get product details by given ID
-    const p = Application.Pages["store"].TestData[uuid]
-    if (p) return eval('`' + Application.Pages["store"].Templates["product"] + '`')
+    const w = Application.Pages["store"].TestData.wiki[uuid]
+    const p = Application.Pages["store"].TestData.product[w.ID]
+    if (p && w) return eval('`' + Application.Pages["store"].Templates["product"] + '`')
 }
 
 Application.Pages["store"].TestData = {
-    "12345": {
-        ID: "12345",
-        Name: "Where the Crawdads Sing",
-        Pictures: [
-            "https://images-na.ssl-images-amazon.com/images/I/81WWiiLgEyL._AC_UL480_SR318,480_.jpg"
-        ],
-        Price: 14,
-        DiscountPercent: 10,
-        Tags: ["", ""],
+    wiki: {
+        "12345": {
+            ID: "12345",
+            Name: "Where the Crawdads Sing",
+            Pictures: [
+                "https://images-na.ssl-images-amazon.com/images/I/81WWiiLgEyL._AC_UL480_SR318,480_.jpg"
+            ],
+            Tags: ["Book", "Novel"],
+        },
+        "5453": {
+            ID: "5453",
+            Name: "Fire TV Stick 4K with Alexa Voice Remote, streaming media player",
+            Pictures: [
+                "https://images-na.ssl-images-amazon.com/images/I/51CgKGfMelL._AC_UL320_SR320,320_.jpg"
+            ],
+            Tags: ["TV", "TVBox"],
+        },
+        "5454": {
+            ID: "5454",
+            Name: 'Intex River Run I Sport Lounge, Inflatable Water Float, 53" Diameter',
+            Pictures: [
+                "https://images-na.ssl-images-amazon.com/images/I/61KBtaWa%2B-L._AC_UL320_SR320,320_.jpg"
+            ],
+            Tags: ["River", "Swim"],
+        },
+        "8547": {
+            ID: "8547",
+            Name: "KORSIS Women's Summer Casual T Shirt Dresses Short Sleeve Swing Dress Pockets",
+            Pictures: [
+                "https://images-na.ssl-images-amazon.com/images/I/51iKmLOFhjL._AC_UL320_SR258,320_.jpg"
+            ],
+            Tags: ["Woman", "Shirt"],
+        },
+        "8889": {
+            ID: "8889",
+            Name: 'Womens and Mens Kids Water Shoes Barefoot Quick-Dry Aqua Socks for Beach Swim Surf Yoga Exercise',
+            Pictures: [
+                "https://images-na.ssl-images-amazon.com/images/I/71pVY69VM0L._AC_UL320_SR320,320_.jpg"
+            ],
+            Tags: ["Woman", "Shoes"],
+        },
     },
-    "5453": {
-        ID: "5453",
-        Name: "Fire TV Stick 4K with Alexa Voice Remote, streaming media player",
-        Pictures: [
-            "https://images-na.ssl-images-amazon.com/images/I/51CgKGfMelL._AC_UL320_SR320,320_.jpg"
-        ],
-        Price: 49.99,
-        DiscountPercent: 10,
-        Tags: ["", ""],
-    },
-    "5454": {
-        ID: "5454",
-        Name: 'Intex River Run I Sport Lounge, Inflatable Water Float, 53" Diameter',
-        Pictures: [
-            "https://images-na.ssl-images-amazon.com/images/I/61KBtaWa%2B-L._AC_UL320_SR320,320_.jpg"
-        ],
-        Price: 22.99,
-        DiscountPercent: 0,
-        Tags: ["", ""],
-    },
-    "8547": {
-        ID: "8547",
-        Name: "KORSIS Women's Summer Casual T Shirt Dresses Short Sleeve Swing Dress Pockets",
-        Pictures: [
-            "https://images-na.ssl-images-amazon.com/images/I/51iKmLOFhjL._AC_UL320_SR258,320_.jpg"
-        ],
-        Price: 22.99,
-        DiscountPercent: 0,
-        Tags: ["", ""],
-    },
-    "8889": {
-        ID: "8889",
-        Name: 'Womens and Mens Kids Water Shoes Barefoot Quick-Dry Aqua Socks for Beach Swim Surf Yoga Exercise',
-        Pictures: [
-            "https://images-na.ssl-images-amazon.com/images/I/71pVY69VM0L._AC_UL320_SR320,320_.jpg"
-        ],
-        Price: 13.58,
-        DiscountPercent: 0,
-        Tags: ["", ""],
-    },
+    product: {
+        "12345": {
+            ProductID: "12345",
+            OrganizationID: "",
+            WikiID: "12345",
+            WarehouseID: "",
+            Currency: 0,
+            RealPrice: 14,
+            DiscountPercent: 10,
+            PayablePrice: 12.6,
+            TTL: "",
+        },
+        "5453": {
+            ProductID: "5453",
+            OrganizationID: "",
+            WikiID: "5453",
+            WarehouseID: "",
+            Currency: 0,
+            RealPrice: 49.99,
+            DiscountPercent: 10,
+            PayablePrice: 44.99,
+            TTL: "",
+        },
+        "5454": {
+            ProductID: "5454",
+            OrganizationID: "",
+            WikiID: "5454",
+            WarehouseID: "",
+            Currency: 0,
+            RealPrice: 22.99,
+            DiscountPercent: 0,
+            PayablePrice: 22.99,
+            TTL: "",
+        },
+        "8547": {
+            ProductID: "8547",
+            OrganizationID: "",
+            WikiID: "8547",
+            WarehouseID: "",
+            Currency: 0,
+            RealPrice: 25.99,
+            DiscountPercent: 0,
+            PayablePrice: 25.99,
+            TTL: "",
+        },
+        "8889": {
+            ProductID: "8889",
+            OrganizationID: "",
+            WikiID: "8889",
+            WarehouseID: "",
+            Currency: 0,
+            RealPrice: 13.58,
+            DiscountPercent: 0,
+            PayablePrice: 13.58,
+            TTL: "",
+        },
+    }
 }

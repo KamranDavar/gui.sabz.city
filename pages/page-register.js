@@ -44,7 +44,10 @@ Application.Pages["register"] = {
             "نمی پذیرم",
             "ثبت نام راحت با استفاده از دیگر پلتفرم ها"
         ],
-    }
+    },
+    HTML: "",
+    CSS: "",
+    Templates: {}
 }
 
 Application.Pages["register"].ConnectedCallback = function () {

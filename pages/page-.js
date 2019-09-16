@@ -84,7 +84,10 @@ Application.Pages[""] = {
             "زندگی",
             "",
         ],
-    }
+    },
+    HTML: "",
+    CSS: "",
+    Templates: {}
 }
 
 Application.Pages[""].ConnectedCallback = function () {

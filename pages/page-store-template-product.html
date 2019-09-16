@@ -2,37 +2,28 @@
 <!-- https://schema.org/Product -->
 
 <article class="span-2" title="Product detail" typeof="Product">
-    <a href='${"/product/" + p.ID}'>
+    <a href='${"/product/" + w.ID}'>
         <header>
-            <img src=${p.Pictures[0]} alt=${p.Name} property="image" />
-            <h1 property="name">${p.Name}</h1>
+            <img src='${w.Pictures[0]}' alt='${w.Name}' property="image" />
+            <h1 property="name">${w.Name}</h1>
         </header>
-        <div property="aggregateRating" typeof="AggregateRating">
-            <span title="Product quality stars" property="ratingValue">
-                <i class="icons-font">star</i>
-                <i class="icons-font">star</i>
-                <i class="icons-font">star</i>
-                <i class="icons-font">star_half</i>
-                <i class="icons-font">star_border</i>
-            </span>
-            <span title="User give stars number" property="reviewCount">1589</span>
-        </div>
-        <div>
-            <span title="Discount percent">${p.DiscountPercent}%</span>
-            <del title="Real price">${p.Price}</del>
-            <ins title="Payable price">${p.Price * (100 - p.DiscountPercent) / 100}</ins>
+        <section property="offers" typeof="Offer">
+            <del title="Real price" ${p.DiscountPercent> 0 ? "" : "hidden"}>${p.RealPrice}</del>
+            <ins title="Payable price" property="price" content="${p.PayablePrice}">${p.PayablePrice}</ins>
             <span title="Currency" property="priceCurrency">${Application.UserPreferences.ContentPreferences.Currency.symbol}</span>
-
-            <span title="Discount end time"></span>
-            <span title="Discount claimed bar"></span>
-            <span title="Discount claimed percent"></span>
-        </div>
+        </section>
     </a>
-    <footer>
-        <input type="checkbox" role="checkbox" id="${'compare-' + p.ID}" />
-        <label for="${'compare-' + p.ID}" hidden>Compare</label>
 
-        <button id="addToCard" class="raised" title="Add to card" onclick="">
+    <footer>
+        <button type="toggle" role="switch" id="addToCompare" class="icon" title="Add to compare" onclick="">
+            <i class="icons-font">compare_arrows</i>
+            <i class="icons-font">compare_arrows</i>
+        </button>
+        <button type="toggle" role="switch" id="addToWishList" class="icon" title="Add to wish list" onclick="">
+            <i class="icons-font">turned_in_not</i>
+            <i class="icons-font">turned_in</i>
+        </button>
+        <button type="toggle" id="addToCard" class="raised" title="Add to card" onclick="">
             <i class="icons-font">add_shopping_cart</i>
         </button>
     </footer>

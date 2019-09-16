@@ -19,72 +19,69 @@
 <main>
     <article class="layout-grid" title="Product detail" typeof="Product">
         <div class="span-1">
-            <a href='${"/compare-products?p=" + Application.Pages["product"].ProductDetail.ID}' title="Compare">
-                <i class="icons-font" hidden>compare_arrows</i>
+            <a href='${"/compare-products?p=" + w.ID}' title="Compare">
+                <i class="icons-font">compare_arrows</i>
             </a>
             <button class="icon" title="Show price chart" @click>
-                <i class="icons-font" hidden>show_chart</i>
+                <i class="icons-font">show_chart</i>
             </button>
-            <button role=switch class="icon" title="Like!" id="likeButton"
-                onclick='Application.Pages["product"].toggleLikeProduct()'>
-                <i class="icons-font" hidden>favorite_border</i>
+            <button role=switch class="icon" title="Like!" id="likeButton" onclick='Application.Pages["product"].toggleLikeProduct()'>
+                <i class="icons-font">favorite_border</i>
                 <i class="icons-font" hidden>favorite</i>
             </button>
         </div>
 
         <div class="span-4">
-            <img src='${Application.Pages["product"].ProductDetail.Pictures[0]}'
-                alt='${Application.Pages["product"].ProductDetail.Name}' title="Product picture" property="image" />
+            <img src='${w.Pictures[0]}' alt='${w.Name}' title="Product picture" property="image" />
         </div>
 
         <div class="span-7">
-            <h1>${Application.Pages["product"].ProductDetail.Name}</h1>
+            <h1>${w.Name}</h1>
 
             <a href="">
                 <span title="Product brand"></span>
             </a>
 
-            <div>
-                <a href=${"/store?tags=" + Application.Pages["product"].ProductDetail.Tags.join()} title="Product tags">
-                    ${Application.Pages["product"].ProductDetail.Tags.map(t => `
-                    <a href=${"/store?tags=" + t}><span title="Product tag">${t}</span></a>
-                    `)}
+            <section>
+                <a href='${"/store?tags=" + w.Tags.join("&tags=")}' title="Product tags">
+                    ${w.Tags.map(t => `
+                    <a href='${"/store?tags=" + t}'><span title="Product tag">${t}</span></a>
+                    `).join("")}
                 </a>
 
                 <span title="related tags to this tags or product"></span>
-            </div>
+            </section>
 
             <a href="">
                 <span title="Seller organization name"></span>
             </a>
 
-            <div>
+            <section property="aggregateRating" typeof="AggregateRating">
                 <a href="#CustomerReviews">
-                    <span title="Product quality stars">
+                    <span title="Product quality stars" property="ratingValue">
                         <i class="icons-font">star</i>
                         <i class="icons-font">star</i>
                         <i class="icons-font">star</i>
                         <i class="icons-font">star_half</i>
                         <i class="icons-font">star_border</i>
                     </span>
-                    <span title="User give stars number">1589</span>
+                    <span title="User give stars number" property="ratingValue">4.5</span>
+                    <span title="Number of user give stars " property="reviewCount">(1589)</span>
                 </a>
-            </div>
+            </section>
 
-            <div>
-                <span title="Discount percent">${Application.Pages["product"].ProductDetail.DiscountPercent}%</span>
-                <del title="Real price">${Application.Pages["product"].ProductDetail.Price}</del>
-                <ins title="Payable price">${Application.Pages["product"].ProductDetail.Price * (100 -
-                    Application.Pages["product"].ProductDetail.DiscountPercent) / 100}</ins>
+            <section property="offers" typeof="Offer">
+                <del title="Real price" ${p.DiscountPercent> 0 ? "" : "hidden"}>${p.RealPrice}</del>
+                <span title="Discount percent" ${p.DiscountPercent>0 ? 'hidden' : '' }>${p.DiscountPercent}%</span>
+                <ins title="Payable price" property="price" content='${p.PayablePrice}'>${p.PayablePrice}</ins>
                 <span title="Currency">${Application.UserPreferences.ContentPreferences.Currency.symbol}</span>
 
-                <span title="Discount end time"></span>
-                <span title="Discount claimed bar"></span>
-                <span title="Discount claimed percent"></span>
-            </div>
+                <span title="Discount end time">6:27:15</span>
+                <!--<progress title="Discount claimed bar" max="100" value="30"> 30% </progress> this is not necessary here -->
+                <!--<span title="Discount claimed percent"></span> this is not necessary here-->
+            </section>
 
-            <button id="addToCard" class="raised" onclick='Application.Pages["product"].addToCard()'
-                aria-haspopup="true" aria-controls="addToCardDialog">
+            <button id="addToCard" class="raised" onclick='Application.Pages["product"].addToCard()' aria-haspopup="true" aria-controls="addToCardDialog">
                 <label>Add to card</label>
                 <i class="icons-font">add_shopping_cart</i>
             </button>

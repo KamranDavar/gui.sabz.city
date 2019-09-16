@@ -5,6 +5,11 @@ import '../widgets/widget-menu-service.js'
 import '../widgets/widget-menu-user.js'
 
 Application.Pages["finance"] = {
+    ID: "finance",
+    RecordID: null,
+    Condition: {},
+    State: "",
+    Robots: "all",
     Info: {
         "en": { Name: "Finance", ShortName: "Finance", Tagline: "", Slogan: "", Description: "", Tags: [] },
         "fa": { Name: "خدمات مالی", ShortName: "مالی", Tagline: "", Slogan: "", Description: "", Tags: [] }
@@ -17,7 +22,10 @@ Application.Pages["finance"] = {
         "fa": [
             "",
         ],
-    }
+    },
+    HTML: "",
+    CSS: "",
+    Templates: {}
 }
 
 Application.Pages["finance"].ConnectedCallback = function () {

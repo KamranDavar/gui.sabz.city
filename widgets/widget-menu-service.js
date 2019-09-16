@@ -17,7 +17,7 @@ Application.Widgets["service-menu"] = {
     }
 }
 
-export class WidgetServiceMenu extends LitElement {
+Application.Widgets["service-menu"].HTML = class extends LitElement {
     // constructor() {
     //     super()
     // }
@@ -32,7 +32,7 @@ export class WidgetServiceMenu extends LitElement {
     }
     static get styles() {
         return css`
-            @import '${unsafeCSS(Application.DesignLanguageStyles.href)}';
+            @import '${unsafeCSS(Application.DesignLanguageStyles)}';
 
             dialog {
                 position: absolute;
@@ -125,4 +125,4 @@ export class WidgetServiceMenu extends LitElement {
         this.requestUpdate()
     }
 }
-customElements.define('widget-service-menu', WidgetServiceMenu)
+customElements.define('widget-service-menu', Application.Widgets["service-menu"].HTML)

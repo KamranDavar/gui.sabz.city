@@ -26,7 +26,10 @@ Application.Pages["localize"] = {
             "",
             "ذخیره",
         ],
-    }
+    },
+    HTML: "",
+    CSS: "",
+    Templates: {}
 }
 
 Application.Pages["localize"].ConnectedCallback = function () {

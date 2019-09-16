@@ -5,6 +5,11 @@ import '../widgets/widget-menu-service.js'
 import '../widgets/widget-menu-user.js'
 
 Application.Landings["about-finance"] = {
+    ID: "about-finance",
+    RecordID: "",
+    Condition: {},
+    State: "",
+    Robots: "all",
     Info: {
         "en": { Name: "", ShortName: "", Tagline: "", Slogan: "", Description: "", Tags: [] },
         "fa": { Name: "", ShortName: "", Tagline: "", Slogan: "", Description: "", Tags: [] }
@@ -29,7 +34,14 @@ Application.Landings["about-finance"] = {
             "می توان از آن به عنوان اولین واحد پول بین المللی یاد کرد که واحد پول رسمی حکومت هخامنش بوده است",
             "واژه «دَریک» برای زبان فارسی از دو پاره «دْ» و «اَریک» ساخته شده که بخش نخستینِ آن، حرف معرفه متداول در بسیاری از زبان‌های هندواروپایی، و بخش دوم آن به مفهوم «اَری/ ایرانی» است. حرف معرفه «دْ» هنوز نیز در زبان پشتو/ پشتون (که یکی از زبان‌های خانواده زبان‌های ایرانی است) زنده مانده و برای مثال نام کشور را به شکل «د افغانستان» تلفظ می‌کنند. این حرف با حرف معرفه The در زبان انگلیسی خاستگاهی مشترک دارد",
         ],
-    }
+    },
+    HTML: "",
+    CSS: "",
+    Templates: {}
+}
+
+Application.Landings["about-finance"].ConnectedCallback = function () {
+    window.document.body.innerHTML = eval('`' + Application.ActivePage.HTML + '`')
 }
 
 Application.Landings["about-finance"].DisconnectedCallback = function () {

@@ -40,7 +40,7 @@ Application.Widgets["suggest-language"] = {
 /**
  * Guess and suggest in stateless localization about change language to its native lang by IP location!
  */
-export class WidgetSuggestLanguage extends LitElement {
+Application.Widgets["suggest-language"].HTML = class extends LitElement {
     static get properties() {
         return {
             suggestDifferentLanguage: Boolean,
@@ -72,7 +72,7 @@ export class WidgetSuggestLanguage extends LitElement {
     }
     static get styles() {
         return css`
-            @import '${unsafeCSS(Application.DesignLanguageStyles.href)}';
+            @import '${unsafeCSS(Application.DesignLanguageStyles)}';
             
             dialog {
                 position: fixed;
@@ -127,4 +127,4 @@ export class WidgetSuggestLanguage extends LitElement {
         window.location.replace(url)
     }
 }
-customElements.define('widget-suggest-language', WidgetSuggestLanguage)
+customElements.define('widget-suggest-language', Application.Widgets["suggest-language"].HTML)
