@@ -3,3 +3,12 @@
 article img {
     height: 180px;
 }
+/**
+ * Phone
+ */
+
+@media (max-width: 599px){
+    article img{
+        height: 100px;
+    }
+}
