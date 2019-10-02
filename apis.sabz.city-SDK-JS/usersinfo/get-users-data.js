@@ -21,7 +21,7 @@
  * @returns {GetUserDataRes} res
  */
 export function GetUserData(req) {
-    // just for test SDK
+    // just forTest SDK
     return {
         ID: "",
         Name: "",
